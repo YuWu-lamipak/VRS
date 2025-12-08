@@ -1,0 +1,45 @@
+::v-deep .u-form-item__body {
+    padding: 0 !important;
+}
+
+::v-deep .u-form-item__body__right__message {
+    text-align: right !important;
+    margin-top: -24rpx !important;
+    margin-right: 24rpx !important;
+    padding-bottom: 24rpx !important;
+}
+
+::v-deep .textareainput {
+    text-align: right !important;
+    // box-shadow: 2px 2px #EAEAEA !important;
+}
+
+.formitemframe {
+    padding: 0 24rpx;
+}
+
+.formitem_normal {
+    // width: 100%;
+	width: 654rpx;
+    min-height: 40rpx;
+    padding: 36rpx 0;
+
+    .formitem_leftkey {
+        height: 40rpx;
+        line-height: 40rpx;
+        font-size: 28rpx;
+        font-family: PingFangSC;
+        font-weight: 400;
+        color: #212121;
+    }
+}
+
+.maxwidth400 {
+    max-width: 400rpx;
+}
+
+.isneed {
+    margin: -10rpx 0 0 4rpx;
+    color: red;
+}
+

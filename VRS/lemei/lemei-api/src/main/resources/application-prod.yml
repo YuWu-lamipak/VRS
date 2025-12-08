@@ -1,0 +1,77 @@
+# 数据源配置
+spring:
+    #ddl-auto:create （每次运行该程序，没有表格会新建表格，表内有数据会清空）
+    #ddl-auto:create-drop （每次程序结束的时候会清空表）
+    #ddl-auto:update （每次运行程序，没有表格会新建表格，表内有数据不会清空，只会更新）
+    #ddl-auto:validate（运行程序会校验数据与数据库的字段类型是否相同，不同会报错）
+    jpa:
+        hibernate:
+            ddl-auto: update
+        naming:
+            physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        show-sql: true
+    datasource:
+        #type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        druid:
+            # 主库数据源
+            master:
+#                url: jdbc:mysql://localhost:3306/lemei?
+#                username: root
+#                password: 123
+                # 测试环境
+#                url: jdbc:mysql://localhost:3306/lemei?
+#                username: carbook
+#                password: LmKP#2024Ca!rBoo!k
+                # 正式环境
+                url: jdbc:mysql://172.18.165.25:3306/carbooking?
+                username: carbook
+                password: LM!202pkS4cb!
+            # 从库数据源
+            slave:
+                # 从数据源开关/默认关闭
+                enabled: false
+                url:
+                username:
+                password:
+            # 初始连接数
+            initialSize: 5
+            # 最小连接池数量
+            minIdle: 10
+            # 最大连接池数量
+            maxActive: 20
+            # 配置获取连接等待超时的时间
+            maxWait: 60000
+            # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+            timeBetweenEvictionRunsMillis: 60000
+            # 配置一个连接在池中最小生存的时间，单位是毫秒
+            minEvictableIdleTimeMillis: 300000
+            # 配置一个连接在池中最大生存的时间，单位是毫秒
+            maxEvictableIdleTimeMillis: 900000
+            # 配置检测连接是否有效
+            validationQuery: SELECT 1 FROM DUAL
+            testWhileIdle: true
+            testOnBorrow: false
+            testOnReturn: false
+            webStatFilter:
+                enabled: true
+            statViewServlet:
+                enabled: true
+                # 设置白名单，不填则允许所有访问
+                allow:
+                url-pattern: /druid/*
+                # 控制台管理用户名和密码
+                login-username: ruoyi
+                login-password: ww1300421296
+            filter:
+            #stat:
+            #enabled: true
+            # 慢SQL记录
+            #log-slow-sql: true
+            #slow-sql-millis: 1000
+            # merge-sql: true
+            #wall:
+            #config:
+            #multi-statement-allow: true
+ESB:
+    ip: esbapi.lamipak.biz

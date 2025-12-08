@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lemei.quartz.mapper.RytaskMapper">
+
+	<insert id="updateLmSupplier">
+		insert into lm_supplier(ID, name,code) values
+		<foreach item="item" index="index" collection="list" separator=",">
+			(#{item.ID},#{item.name},#{item.code})
+		</foreach>
+	</insert>
+
+	<delete id="deleteLmSuppliers">
+		delete from lm_supplier
+	</delete>
+
+	<select id="selectLmSupplierList" resultType="LmSupplier">
+		select * from lm_supplier
+	</select>
+
+	<select id="selectLmGlobalVariable" resultType="LmGlobalVariable">
+		select * from lm_global_variable
+	</select>
+
+	<select id="selectLmSupplierLocalList" resultType="LmSupplier">
+		select * from lm_supplier_local
+	</select>
+
+
+</mapper> 

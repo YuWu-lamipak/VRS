@@ -1,0 +1,51 @@
+# IDE
+.idea/
+.vscode/
+
+# 构建输出
+VRS/lemei/*/target/
+VRS/lemei-ui/node_modules/
+VRS/lemei-ui/dist/
+VRS/LMXCX/*/node_modules/
+VRS/LMXCX/*/dist/
+VRS/LMXCX/*/unpackage/
+
+# 测试报告（保留模板）
+TestReport/*.txt
+TestReport/*.xml
+TestReport/lemei-*/
+TestReport/TEST_SUMMARY.md
+
+# 日志文件
+*.log
+
+# 临时文件
+*.bak
+*.tmp
+*.swp
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# 编译输出
+out/
+build/
+bin/
+
+# 包文件
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# 环境配置（如果包含敏感信息）
+# application-prod.yml
+# application-dev.yml
