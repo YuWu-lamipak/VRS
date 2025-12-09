@@ -376,6 +376,7 @@ public class CarApplicationController {
         List<String> carNumberList = applicationService.selectCarNumberByApplicationDate(currentDate);
 //        List<Integer> enterStatusList = applicationService.getEnterStatusByCarNumber(editParam.getCarNumber());
         JSONObject responseFail = new JSONObject();
+        
         //未预约导致制卡失败
         if (!carNumberList.contains(carNumber)) {
             responseFail.put("Message", "制卡失败,此车牌号今日未预约或已制卡");

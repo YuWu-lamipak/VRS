@@ -1,6 +1,6 @@
 # 项目状态和进度
 
-**最后更新**: 2025-12-05
+**最后更新**: 2025-12-09
 
 ---
 
@@ -33,6 +33,46 @@
 ---
 
 ## 最近完成的工作
+
+### 2025-12-09
+
+#### 1. 项目文档结构重组 ✅
+**优化内容**:
+- 创建 `Test/` 文件夹，集中管理所有测试相关文件
+- 创建 `Start Engine/` 文件夹，集中管理所有服务启动脚本
+- 移动文件到对应文件夹：
+  - 测试文件：`run-tests.bat`、`test-weighing-flow-auto.bat`、`test-weighing-flow.bat`、`generate-summary.ps1`、`TestReport/`、`.postman.json`、`测试手册.md`
+  - 启动脚本：`start-backend-fixed.bat`、`start-api.bat`、`start-all.bat`、`stop-all.bat`、`check-services.bat`、`create-startup-task.bat`、`delete-startup-task.bat`
+- 创建 `项目说明.md`，提供完整的项目概述和技术文档
+- 更新 `README.md` 中的所有文件路径引用
+- 更新 Steering 文档以反映最新状态
+
+**结果**: ✅ 项目结构更加清晰，文件组织更加合理
+
+#### 2. 智能版称重流程测试脚本 ✅
+**功能**:
+- 创建 `test-weighing-flow-auto.bat` 智能版测试脚本
+- 自动生成唯一测试数据（车牌号、卡片ID）
+- 自动更新预约记录进行测试
+- 自动恢复原始数据
+- 可无限次重复运行，无需手动干预
+
+**测试结果**: ✅ 8/8 全部通过
+
+#### 3. 文档整合和重写 ✅
+**优化内容**:
+- 创建统一的 `测试手册.md`，整合所有测试相关文档
+- 简化 `README.md`，聚焦快速启动
+- 删除重复和过时的文档：
+  - `TESTING.md`
+  - `TEST_SCRIPTS.md`
+  - `AUTOMATED_TESTING.md`
+  - `test-weighing-flow-fixed.ps1`
+  - `TestReport/SUMMARY_TEMPLATE.md`
+- 更新 `.github/README.md` 文档结构说明
+- 更新 Steering 文档以反映最新状态
+
+**结果**: ✅ 文档结构清晰，易于维护和使用
 
 ### 2025-12-05
 
@@ -98,23 +138,32 @@
 ## 当前文档结构
 
 ### 根目录文档
-- ✅ `README.md` - 项目主文档（已优化）
-- ✅ `TESTING.md` - 测试指南（新整合）
+- ✅ `README.md` - 项目主文档（快速启动指南）
+- ✅ `项目说明.md` - 完整的项目概述和技术文档
+
+### Test 文件夹（测试相关）
+- ✅ `测试手册.md` - 完整的测试指南和故障排除
+- ✅ `run-tests.bat` - 单元测试脚本（推荐）
+- ✅ `test-weighing-flow-auto.bat` - 称重流程测试（智能版，推荐）
+- ✅ `test-weighing-flow.bat` - 称重流程测试（标准版）
+- ✅ `generate-summary.ps1` - 报告生成脚本（自动调用）
+- ✅ `.postman.json` - Postman配置文件
+- ✅ `TestReport/` - 测试报告目录
+
+### Start Engine 文件夹（服务启动）
+- ✅ `start-backend-fixed.bat` - 启动后端管理服务
+- ✅ `start-api.bat` - 启动 API 服务
+- ✅ `start-all.bat` - 启动所有服务
+- ✅ `stop-all.bat` - 停止所有服务
+- ✅ `check-services.bat` - 检查服务状态
+- ✅ `create-startup-task.bat` - 创建开机启动任务
+- ✅ `delete-startup-task.bat` - 删除开机启动任务
 
 ### Steering 文档（AI 助手上下文）
 - ✅ `product.md` - 产品概述和项目状态
 - ✅ `structure.md` - 项目结构说明
 - ✅ `tech.md` - 技术栈详情
 - ✅ `status.md` - 项目状态和进度（本文档）
-
-### 测试脚本
-- ✅ `run-tests.bat` - 批处理测试脚本（推荐）
-- ✅ `run-full-tests.ps1` - PowerShell 测试脚本
-- ✅ `generate-summary.ps1` - 报告生成脚本
-
-### 启动脚本
-- ✅ `start-backend-fixed.bat` - 启动后端管理服务
-- ✅ `start-api.bat` - 启动 API 服务
 
 ---
 
@@ -123,32 +172,57 @@
 ### lemei-system（单元测试）- 6 个测试
 **测试类**: `LmCarApplicationServiceTest`
 
+测试方法：
+1. `testSelectCarNumberByApplicationId` - 根据预约ID查询车牌号
+2. `testCheckEnterStatusInfoExists_WhenExists` - 检查车辆进厂状态（存在）
+3. `testCheckEnterStatusInfoExists_WhenNotExists` - 检查车辆进厂状态（不存在）
+4. `testCheckScrapAdvanceInfoExists` - 检查废料预付款信息
+5. `testInsertLmCarApplication` - 插入车辆预约记录
+6. `testUpdateLmCarApplication` - 更新车辆预约记录
+
 测试内容：
-- 车辆申请服务核心业务逻辑
+- 车辆预约服务核心业务逻辑
 - 数据查询和处理功能
 - 业务规则验证
-- 报废车辆列表查询
-- 供应商列表查询
-- 门卫统计数据查询
+- 使用Mockito模拟数据层
 
 ### lemei-api（集成测试）- 7 个测试
 **测试类**: `CarApplicationApiTest`
 
 测试接口：
-1. `GET /api/application/getReasonList` - 获取申请原因列表
-2. `GET /api/application/getScrapList` - 获取报废车辆列表
-3. `GET /api/application/getSupplierList` - 获取供应商列表
-4. `GET /api/application/guard/statistics` - 门卫统计数据
-5. `GET /api/application/detail` - 获取申请详情
-6. `POST /api/application/submit` - 提交申请（需认证）
-7. `GET /api/application/list` - 获取申请列表（需认证）
+1. `testProCard_Success` - 制卡接口（成功场景）
+2. `testProCard_NotReserved` - 制卡接口（未预约场景）
+3. `testGuardStatistics` - 门卫首页数据统计
+4. `testGetReasonList` - 获取申请原因列表
+5. `testGetScrapList` - 获取废料列表
+6. `testGetSupplierList` - 获取供应商列表
+7. `testGetDetail_InvalidId` - 获取预约详情（无效ID）
+
+测试内容：
+- REST API接口功能测试（外部API，非管理后台）
+- 使用REST Assured进行HTTP请求测试
+- 验证响应状态码和数据格式
+- 测试正常场景和异常场景
 
 ### lemei-admin（控制器测试）- 2 个测试
 **测试类**: `LmCarApplicationControllerTest`
 
+测试方法：
+1. `testEnterOrOut_WhenCarAlreadyEntered` - 进出厂操作（车辆已进厂）
+2. `testEnterOrOut_WhenCarNotEntered` - 进出厂操作（车辆未进厂）
+
 测试内容：
-- 车辆申请管理控制器基础功能
-- 数据访问和权限验证
+- 车辆进出厂控制器功能
+- 业务逻辑验证（防止重复进厂）
+- 使用Mockito模拟服务层
+
+**管理后台功能说明**：
+Admin模块包含30+个管理接口，目前只有2个单元测试。主要功能包括查询、新增/修改、删除、导出、集成等功能。
+
+**测试覆盖率**：
+- ✅ 已测试：进出厂业务逻辑（2个测试）
+- ⚠️ 未测试：其他28+个管理接口
+- 💡 建议：根据业务需要逐步增加测试覆盖
 
 ---
 
@@ -176,21 +250,25 @@
 
 ```cmd
 # 启动服务
-start-backend-fixed.bat          # 后端管理（8066）
-start-api.bat                    # API服务（8601）
+"Start Engine\start-backend-fixed.bat"  # 后端管理（8066）
+"Start Engine\start-api.bat"            # API服务（8601）
+"Start Engine\start-all.bat"            # 启动所有服务
+"Start Engine\stop-all.bat"             # 停止所有服务
 
 # 运行测试
-.\run-tests.bat                  # 批处理脚本（推荐）
-powershell -ExecutionPolicy Bypass -File .\run-full-tests.ps1  # PowerShell 脚本
+Test\run-tests.bat                      # 单元测试（推荐）
+Test\test-weighing-flow-auto.bat        # 称重流程测试（智能版）
+Test\test-weighing-flow.bat             # 称重流程测试（标准版）
 
 # 查看报告
-type TestReport\TEST_SUMMARY.md  # 测试总结
+type Test\TestReport\TEST_SUMMARY.md    # 测试总结
 
 # 检查服务
-netstat -ano | findstr "8066 8601"  # 检查端口
+netstat -ano | findstr "8066 8601"      # 检查端口
+"Start Engine\check-services.bat"       # 检查服务状态
 
 # 停止服务
-taskkill /F /PID <PID>           # 停止指定进程
+taskkill /F /PID <PID>                  # 停止指定进程
 ```
 
 ---

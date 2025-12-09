@@ -20,14 +20,14 @@ spring:
 #        url: jdbc:mysql://172.18.165.44:6446/lemei?
 #        username: carbook
 #        password: LmKP#2024Ca!rBoo!k
-#         测试环境
-#        url: jdbc:mysql://localhost:3306/carbooking?
-#        username: root
-#        password: root123
+        # 本地测试环境
+        url: jdbc:mysql://localhost:3306/carbooking?
+        username: root
+        password: root123
         # 正式环境
-        url: jdbc:mysql://172.18.165.25:3306/carbooking?
-        username: carbook
-        password: LM!202pkS4cb!
+        # url: jdbc:mysql://172.18.165.25:3306/carbooking?
+        # username: carbook
+        # password: LM!202pkS4cb!
       # 从库数据源
       slave:
         # 从数据源开关/默认关闭

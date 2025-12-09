@@ -1,0 +1,575 @@
+{
+  "project": "乐美车辆预约系统",
+  "version": "3.7.0",
+  "workspaceId": "60b0aa76-0ace-4483-b09e-bb50b837f5dc",
+  "workspaceName": "乐美车辆称重系统测试",
+  "collections": {
+    "weighing-api": {
+      "id": "3cab23db-153b-4e0a-b68e-4ad92562cb67",
+      "uid": "24576555-3cab23db-153b-4e0a-b68e-4ad92562cb67",
+      "name": "称重流程API测试",
+      "baseUrl": "http://localhost:8601",
+      "requests": [
+        {
+          "id": "42214c48-7c7f-4232-b84a-1633d31d5f13",
+          "uid": "24576555-42214c48-7c7f-4232-b84a-1633d31d5f13",
+          "name": "1. 制卡",
+          "method": "POST",
+          "path": "/api/application/proCard",
+          "description": "创建车辆称重卡片",
+          "status": "完整"
+        },
+        {
+          "id": "835bc4dc-0187-cfa9-c699-792496f71f89",
+          "uid": "24576555-835bc4dc-0187-cfa9-c699-792496f71f89",
+          "name": "2. 待上一磅",
+          "method": "POST",
+          "path": "/api/application/upOnePound",
+          "description": "车辆准备上一磅称重，确认上磅",
+          "status": "需完善"
+        },
+        {
+          "id": "fec7c2a7-c46f-d821-b63d-926b84aabe69",
+          "uid": "24576555-fec7c2a7-c46f-d821-b63d-926b84aabe69",
+          "name": "3. 一磅写入",
+          "method": "POST",
+          "path": "/api/application/oneWrite",
+          "description": "写入一磅称重数据",
+          "status": "需完善"
+        },
+        {
+          "id": "9198de22-9305-1e63-e77b-9f20f9502a3a",
+          "uid": "24576555-9198de22-9305-1e63-e77b-9f20f9502a3a",
+          "name": "4. SAP导入DN数据",
+          "method": "POST",
+          "path": "/api/application/saleDeliveryOrderBodyInfo",
+          "description": "接收SAP的DN数据，按订单求和计算标准参考重量，更新appointmentWeight和上下浮重量，必须在待上二磅前完成",
+          "status": "需完善"
+        },
+        {
+          "id": "c51a9c0e-5329-7ebd-f3bc-330c3780275a",
+          "uid": "24576555-c51a9c0e-5329-7ebd-f3bc-330c3780275a",
+          "name": "5. 待上二磅",
+          "method": "POST",
+          "path": "/api/application/upTwoPound",
+          "description": "车辆准备上二磅称重，确认上磅。销售业务会验证appointmentWeight是否已由SAP导入",
+          "status": "需完善"
+        },
+        {
+          "id": "f4261eae-f6f3-ffd9-b704-99760d989dfd",
+          "uid": "24576555-f4261eae-f6f3-ffd9-b704-99760d989dfd",
+          "name": "6. 二磅写入",
+          "method": "POST",
+          "path": "/api/application/twoWrite",
+          "description": "写入二磅称重数据，使用SAP导入的标准参考重量进行容差验证",
+          "status": "需完善"
+        },
+        {
+          "id": "eda887a8-1929-054a-8d37-b96a54d8d298",
+          "uid": "24576555-eda887a8-1929-054a-8d37-b96a54d8d298",
+          "name": "7. 退卡",
+          "method": "POST",
+          "path": "/api/application/refundCard",
+          "description": "退还车辆称重卡片，完成称重流程",
+          "status": "需完善"
+        }
+      ]
+    }
+  },
+  "environments": {
+    "local": {
+      "id": "f61296db-6498-428d-8925-7e4e9d30d822",
+      "uid": "24576555-f61296db-6498-428d-8925-7e4e9d30d822",
+      "name": "本地开发环境",
+      "variables": {
+        "base_url": "http://localhost:8601",
+        "car_number": "测试A",
+        "card_id": "5FD9DBC4",
+        "application_id": "ee9c31488b1f45be908e01ca7c61bc21"
+      }
+    },
+    "test": {
+      "id": "",
+      "name": "测试环境",
+      "variables": {
+        "base_url": "http://test-server:8601",
+        "api_prefix": "/api"
+      }
+    }
+  },
+  "workflow": {
+    "description": "车辆称重完整流程 - 严格的状态机流程",
+    "prerequisite": "必须先在系统中创建车辆预约记录，然后经过审核和业务划分，确认进场后才能制卡",
+    "completeFlow": [
+      "0. 创建预约 → 1. 审核通过 + 业务划分 → 2. 确认进场 → 3. 制卡 → 4. 待上一磅 → 5. 一磅写入 → 6. [SAP导入DN数据] → 7. 待上二磅 → 8. 二磅写入 → 9. 退卡 → 10. 出厂"
+    ],
+    "criticalNote": "SAP导入DN数据必须在一磅写入后、待上二磅前完成，否则销售业务的待上二磅和二磅写入会因缺少标准参考重量而失败",
+    "stateTransitions": [
+      {
+        "step": 0,
+        "name": "创建预约",
+        "api": "POST /api/application/insert",
+        "requiredState": "无",
+        "action": "创建车辆预约记录",
+        "stateChange": "无 → 待审核 (status=1, appointmentStatus=0)",
+        "nextAllowed": ["审核"],
+        "notes": "预约创建后，状态为待审核，需要审核人员审核"
+      },
+      {
+        "step": 1,
+        "name": "审核",
+        "api": "PUT /api/application/authen",
+        "requiredState": "待审核 (status=1)",
+        "action": "审核预约记录，进行业务划分",
+        "stateChange": "待审核 → 审核通过 (status=2)",
+        "businessTypes": {
+          "0": "采购业务 - 需选择供应商和启用管控",
+          "1": "销售业务 - 预约重量设为0",
+          "2": "废料业务 - 预约重量设为0，需检查OA废料预付款信息",
+          "3": "固废业务",
+          "4": "危废业务"
+        },
+        "nextAllowed": ["确认进场"],
+        "notes": "审核时必须选择业务类型，不同业务类型有不同的验证规则"
+      },
+      {
+        "step": 2,
+        "name": "确认进场",
+        "api": "PUT /api/application/enter",
+        "requiredState": "审核通过 (status=2, enterStatus=0)",
+        "action": "确认车辆进厂",
+        "stateChange": "未进厂 → 已进厂 (enterStatus=1)",
+        "nextAllowed": ["制卡"],
+        "notes": "只有审核通过且确认进场后才能制卡"
+      },
+      {
+        "step": 3,
+        "name": "制卡",
+        "api": "POST /api/application/proCard",
+        "requiredState": "审核通过 + 已进厂 + 待制卡 (status=2, enterStatus=1, appointmentStatus=0)",
+        "action": "创建称重卡片，模拟实际报文发送",
+        "stateChange": "待制卡 → 待上一磅 (appointmentStatus=0 → 1)",
+        "nextAllowed": ["待上一磅"],
+        "validations": [
+          "检查车牌号是否今日已预约",
+          "检查是否存在未出厂记录",
+          "检查审核状态、进厂状态、预约状态"
+        ],
+        "notes": "此步骤会改变预约状态，是后续流程的前提。如果跳过此步骤直接操作会失败"
+      },
+      {
+        "step": 4,
+        "name": "待上一磅",
+        "api": "POST /api/application/upOnePound",
+        "requiredState": "待上一磅 (status=2, enterStatus=1, appointmentStatus=1)",
+        "action": "车辆准备上一磅称重，确认上磅",
+        "stateChange": "待上一磅 → 待确认一磅 (appointmentStatus=1 → 2)",
+        "nextAllowed": ["一磅写入"],
+        "returns": "返回业务类型、司机姓名、订单ID、供应商信息等",
+        "notes": "必须在制卡后才能执行，否则返回失败"
+      },
+      {
+        "step": 5,
+        "name": "一磅写入",
+        "api": "POST /api/application/oneWrite",
+        "requiredState": "待确认一磅 (status=2, enterStatus=1, appointmentStatus=2)",
+        "action": "写入一磅称重数据",
+        "stateChange": "待确认一磅 → 待上二磅 (appointmentStatus=2 → 3)",
+        "dataFields": [
+          "CardID - 卡片ID",
+          "TaskID - 任务ID",
+          "Weight - 重量",
+          "FirstWeightTime - 一磅时间",
+          "LoadoMeterID - 地磅ID",
+          "ATMSTaskID - ATMS任务ID",
+          "UserID/UserName - 操作员信息"
+        ],
+        "nextAllowed": ["待上二磅"],
+        "notes": "记录第一次称重重量和相关信息"
+      },
+      {
+        "step": 6,
+        "name": "SAP导入DN数据（关键步骤）",
+        "api": "POST /api/application/saleDeliveryOrderBodyInfo",
+        "requiredState": "一磅写入完成后 (appointmentStatus=3)",
+        "action": "接收SAP系统发送的DN（交货单）数据，计算标准参考重量并更新预约记录",
+        "purpose": "为销售业务提供标准参考重量，用于待上二磅验证和二磅写入时的容差控制",
+        "dataProcessing": [
+          "1. 接收SAP发送的DN数据（支持批量，JSON数组格式）",
+          "2. 解析交货单明细（ITEM数组），过滤lm_dnlineref!=0的有效行",
+          "3. 单位转换：g自动转换为KG",
+          "4. 插入/更新lm_delivery_item_field表（DN原始数据）",
+          "5. 关联车牌号和订单ID，生成lm_delivery_item_real表",
+          "6. 更新匹配标志（lm_match_flag）",
+          "7. 调用updateTotalGrossWeightByOrderId：按订单ID求和所有DN行重量",
+          "8. 更新预约记录的appointmentWeight = SUM(lm_grossweight)",
+          "9. 自动计算上下浮重量：upFloatingWeight = appointmentWeight × (1 + toleranceAdd), downFloatingWeight = appointmentWeight × (1 + toleranceDec)"
+        ],
+        "dataFields": [
+          "lm_actualdeliverydate - 实际交货日期",
+          "lm_loadTime - 装载时间（yyyyMMdd格式）",
+          "lm_dnnum - 交货单号（DN号）",
+          "lm_car_number - 车牌号（用于匹配预约记录）",
+          "lm_dnline - 交货单行号",
+          "lm_dnlineref - 行参考（0表示无效行，跳过）",
+          "lm_batch - 批次号",
+          "lm_grossweight - 毛重（单行重量，需求和）",
+          "lm_weightunit - 重量单位（g/KG，g自动转换为KG）",
+          "lm_packagingid - 包装ID"
+        ],
+        "weightCalculation": {
+          "step1": "总重量 = SUM(各DN行的lm_grossweight) WHERE lm_dnlineref != 0",
+          "step2": "appointmentWeight = 总重量",
+          "step3": "upFloatingWeight = appointmentWeight × (1 + toleranceAdd)",
+          "step4": "downFloatingWeight = appointmentWeight × (1 + toleranceDec)",
+          "usage": "待上二磅时检查appointmentWeight > 0，二磅写入时验证: downFloatingWeight ≤ 实际重量(Fact) ≤ upFloatingWeight"
+        },
+        "timing": "必须在一磅写入后、待上二磅前执行。通常由SAP系统在车辆完成一磅称重后自动推送",
+        "nextAllowed": ["待上二磅"],
+        "notes": "这是销售业务的关键步骤！如果DN数据未传入或求和为0，销售业务的待上二磅会返回错误提示，二磅写入也会失败。此接口独立于称重流程状态机，但必须在正确的时机调用。"
+      },
+      {
+        "step": 7,
+        "name": "待上二磅",
+        "api": "POST /api/application/upTwoPound",
+        "requiredState": "待上二磅 (status=2, enterStatus=1, appointmentStatus=3)",
+        "action": "车辆准备上二磅称重，确认上磅",
+        "stateChange": "待上二磅 → 待确认二磅 (appointmentStatus=3 → 4)",
+        "validations": [
+          "销售业务(businessType=1): 检查appointmentWeight是否 > 0（由SAP导入DN数据计算）",
+          "废料业务(businessType=2/4): 检查appointmentWeight是否 > 0",
+          "如果appointmentWeight = 0，返回错误并保持appointmentStatus=3"
+        ],
+        "errorHandling": {
+          "salesBusiness": "如果appointmentWeight=0，返回'不允许上二磅,销售重量未传入预约系统'",
+          "scrapBusiness": "如果appointmentWeight=0，返回'不允许上二磅,废料重量未传入预约系统'"
+        },
+        "nextAllowed": ["二磅写入"],
+        "notes": "必须完成一磅写入且SAP导入DN数据后才能执行。此步骤会验证标准参考重量是否已准备好"
+      },
+      {
+        "step": 8,
+        "name": "二磅写入",
+        "api": "POST /api/application/twoWrite",
+        "requiredState": "待确认二磅 (status=2, enterStatus=1, appointmentStatus=4)",
+        "action": "写入二磅称重数据，使用SAP导入的标准参考重量进行容差验证",
+        "stateChange": "待确认二磅 → 待退卡 (appointmentStatus=4 → 5) 或回退到 待上二磅 (appointmentStatus=3) 如果验证失败",
+        "dataFields": [
+          "CardID - 卡片ID",
+          "TruckNo1 - 车牌号",
+          "TruckNo2 - 挂车号",
+          "LoadoMeterID - 地磅ID",
+          "UserID/UserName - 操作员信息",
+          "TaskID - 任务ID",
+          "ATMSTaskID - ATMS任务ID",
+          "Gross - 毛重",
+          "Tare - 皮重",
+          "Net - 净重",
+          "PackWeight - 扣重",
+          "Fact - 实重(货物重量，用于容差验证)",
+          "SecondWeightTime - 二磅时间"
+        ],
+        "weightValidation": {
+          "enableControl=0": "未启用管控，直接通过，appointmentStatus=5",
+          "enableControl=1": "启用管控，验证: downFloatingWeight ≤ Fact ≤ upFloatingWeight",
+          "enableControl=null且businessType=1": "销售业务，验证: downFloatingWeight ≤ Fact ≤ upFloatingWeight",
+          "enableControl=null且businessType=2/3/4": "废料/固废/危废业务，直接通过，appointmentStatus=5"
+        },
+        "validationLogic": [
+          "1. 查询预约记录的upFloatingWeight和downFloatingWeight（由SAP导入DN数据计算）",
+          "2. 获取实际重量Fact",
+          "3. 判断enableControl和businessType",
+          "4. 如果需要验证：检查 downFloatingWeight ≤ Fact ≤ upFloatingWeight",
+          "5. 验证通过：appointmentStatus=5（待退卡）",
+          "6. 验证失败：appointmentStatus=3（回退到待上二磅），返回错误'二磅重量(实KG)不在下浮重量和上浮重量之间'"
+        ],
+        "errorHandling": {
+          "outOfRange": "如果实重超出容差范围，回退到appointmentStatus=3，需要重新待上二磅",
+          "message": "二磅写入失败,二磅重量(实KG)不在下浮重量和上浮重量之间"
+        },
+        "nextAllowed": ["退卡"],
+        "notes": "这是使用SAP导入的标准参考重量进行验证的关键步骤。如果重量不在容差范围内会失败并回退到待上二磅状态，需要检查DN数据或调整容差"
+      },
+      {
+        "step": 9,
+        "name": "退卡",
+        "api": "POST /api/application/refundCard",
+        "requiredState": "待退卡 (status=2, enterStatus=1, appointmentStatus=5)",
+        "action": "退还车辆称重卡片，完成称重流程",
+        "stateChange": "待退卡 → 已完成 (appointmentStatus=5 → 6)",
+        "dataFields": [
+          "CardID - 卡片ID",
+          "CardType - 卡片类型",
+          "TruckNo1 - 车牌号",
+          "TruckNo2 - 挂车号",
+          "RefundTime - 退卡时间"
+        ],
+        "nextAllowed": ["出厂"],
+        "notes": "完成称重流程，退还卡片。如果在制卡后直接退卡会失败，必须完成完整的称重流程（制卡→一磅→二磅→退卡）"
+      },
+      {
+        "step": 10,
+        "name": "出厂",
+        "api": "PUT /api/application/out",
+        "requiredState": "已完成 (appointmentStatus=6)",
+        "action": "车辆出厂",
+        "stateChange": "已进厂 → 已出厂 (enterStatus=1 → 2)",
+        "dataFields": [
+          "applicationId - 预约ID",
+          "outDate - 出厂时间（自动设置为当前时间）"
+        ],
+        "nextAllowed": [],
+        "notes": "车辆完成称重后出厂，整个流程结束"
+      }
+    ],
+    "testingStrategy": {
+      "positiveTests": "按照正确顺序执行完整流程：创建预约 → 审核通过 → 确认进场 → 制卡 → 待上一磅 → 一磅写入 → [SAP导入DN数据] → 待上二磅 → 二磅写入 → 退卡 → 出厂",
+      "negativeTests": [
+        "跳过制卡直接执行待上一磅（应返回失败）",
+        "制卡后直接执行退卡（应返回失败）",
+        "未完成一磅就执行待上二磅（应返回失败）",
+        "销售业务未导入DN数据就执行待上二磅（应返回'销售重量未传入预约系统'）",
+        "销售业务二磅写入时实重超出容差范围（应回退到待上二磅状态）",
+        "重复执行同一步骤（验证幂等性）"
+      ],
+      "stateValidation": "每个API调用后验证预约状态是否正确变更",
+      "criticalTestCases": [
+        "销售业务完整流程：必须包含SAP导入DN数据步骤",
+        "容差验证：测试实重在容差范围内和超出容差范围的情况",
+        "状态回退：验证二磅写入失败时正确回退到待上二磅状态"
+      ]
+    },
+    "apiDependencies": {
+      "saleDeliveryOrderBodyInfo": {
+        "description": "SAP导入DN数据接口",
+        "requiredBefore": "待上二磅（销售业务）",
+        "affectedFields": [
+          "appointmentWeight - 预约重量（DN求和）",
+          "upFloatingWeight - 上浮重量",
+          "downFloatingWeight - 下浮重量"
+        ],
+        "impact": "如果未调用此接口，销售业务的待上二磅和二磅写入会失败"
+      }
+    }
+  },
+  "notes": "使用 Postman power 管理车辆称重流程 API 测试集合。注意：这是一个严格的状态机流程，必须按顺序执行，跳过步骤会导致失败。",
+  "sampleRequests": {
+    "proCard": {
+      "description": "制卡请求样例",
+      "method": "POST",
+      "url": "{{base_url}}/api/application/proCard",
+      "body": {
+        "json": "{\"CardID\":\"5FD9DBC4\",\"CardType\":\"1\",\"TruckNo1\":\"赣C12347\",\"TruckNo2\":\"\",\"isUpdate\":\"0\",\"TruckType\":\"0\"}"
+      },
+      "notes": "CardID为卡片ID，TruckNo1为车牌号（需与预约记录匹配），isUpdate=0表示新建"
+    },
+    "upOnePound": {
+      "description": "待上一磅请求样例",
+      "method": "POST",
+      "url": "{{base_url}}/api/application/upOnePound",
+      "body": {
+        "json": "{\"CardID\":\"5FD9DBC4\",\"TruckNo1\":\"赣C12347\",\"TruckNo2\":\"\",\"LoadoMeterID\":\"001\"}"
+      },
+      "notes": "LoadoMeterID为地磅ID，车牌号需与制卡时一致"
+    },
+    "oneWrite": {
+      "description": "一磅写入请求样例",
+      "method": "POST",
+      "url": "{{base_url}}/api/application/oneWrite",
+      "body": {
+        "json": "{\"CardID\":\"5FD9DBC4\",\"TruckNo1\":\"KUI8971\",\"TruckNo2\":\"\",\"TaskID\":\"c5ac441f-48a8-4478-b2c2-a818512010aa\",\"Weight\":\"1660\",\"FirstWeightTime\":\"2025-12-09 11:15:00\",\"LoadoMeterID\":\"001\",\"ATMSTaskID\":null,\"UserID\":\"\",\"UserName\":\"\"}"
+      },
+      "notes": "Weight为一磅重量（单位KG），FirstWeightTime为称重时间，TaskID为任务ID"
+    },
+    "saleDeliveryOrderBodyInfo": {
+      "description": "SAP导入DN数据请求样例",
+      "method": "POST",
+      "url": "{{base_url}}/api/application/saleDeliveryOrderBodyInfo",
+      "body": [
+        {
+          "lm_recid": null,
+          "lm_dnnum": "8000001211",
+          "lm_salesorg": "3000",
+          "lm_journaldate": "2024-12-23",
+          "lm_deliverytype": "ZOR1",
+          "lm_shipto": "0002001191",
+          "lm_shiptotext": "青海小西牛生物乳业股份有限公司",
+          "lm_consigneecode": "青海小西牛生物乳业股份有限公司",
+          "lm_consigneeinfo": "青海生物科技产业园经二路北段十号",
+          "lm_notifycode": "青海小西牛生物乳业股份有限公司",
+          "lm_notifyinfo": "青海生物科技产业园经二路北段十号",
+          "lm_contractnumber": "1000001119",
+          "lm_customerponumber": "NA",
+          "lm_planneddeliverydate": "2024-12-23",
+          "lm_actualdeliverydate": "",
+          "lm_poddate": "",
+          "lm_paymentterms": "Y066",
+          "lm_paymenttermstext": "发票日期60天",
+          "lm_tradeterms": "",
+          "lm_destinationport": "",
+          "lm_departureport": "",
+          "lm_totalamount": 161600.0,
+          "lm_netvalue": 143008.85,
+          "lm_taxamount": 18591.16,
+          "lm_documentcurrency": "CNY",
+          "lm_invoicenumber": "1000000119-5",
+          "lm_invoicedate": "",
+          "lm_trackingnumber": "",
+          "lm_shippingdate": "",
+          "lm_insurancedate": "",
+          "lm_sinosureremarks": "",
+          "lm_creditstatus": "A",
+          "lm_deliverystatus": "A",
+          "lm_podstatus": "A",
+          "lm_salesrepresentativeid": "L170806",
+          "lm_salesrepresentativename": "",
+          "lm_bsdid": "",
+          "lm_bsdname": "",
+          "lm_textcode": null,
+          "lm_textdescription": null,
+          "lm_textcontext": null,
+          "lm_countrycode": "CN",
+          "lm_loadTime": "20241223202752",
+          "ITEM": [
+            {
+              "lm_recid": null,
+              "lm_dnnum": "8000000211",
+              "lm_dnline": 4,
+              "lm_sonumber": "1000000119",
+              "lm_soline": 10,
+              "lm_itemcategory": "ZTAN",
+              "lm_parentproject": 0,
+              "lm_itemno": "31010196L14348-V1",
+              "lm_itemdescription": "BK.1001807 - PAPER - TBK  BTU  Tehbotol",
+              "lm_basematerial": "31010196",
+              "lm_basematerialdescription": "LRBA250S-FP00000CB080-EXPE07EXPE10EXPE13",
+              "lm_productgroup": "10",
+              "lm_quantity": 1000000.0,
+              "lm_unit": "PCS",
+              "lm_plant": "3001",
+              "lm_location": "",
+              "lm_batch": "",
+              "lm_batchquantity": 0,
+              "lm_packagingmethod": "",
+              "lm_grossweight": 1000,
+              "lm_netweight": 2191.14,
+              "lm_undertolerance": 0,
+              "lm_overtolerance": 0,
+              "lm_unitprice": 0.161,
+              "lm_discount": 0,
+              "lm_totalamount": 161000.0,
+              "lm_netvalue": 142477.88,
+              "lm_taxamount": 18522.13,
+              "lm_packagingid": "",
+              "lm_internalUnitPrice": 0,
+              "lm_internalAmount": 0,
+              "lm_dnlineref": 10,
+              "lm_weightunit": "KG",
+              "lm_specification": "LRBA250S",
+              "lm_car_number": "苏B17287"
+            },
+            {
+              "lm_recid": null,
+              "lm_dnnum": "8000000211",
+              "lm_dnline": 5,
+              "lm_sonumber": "1000000119",
+              "lm_soline": 20,
+              "lm_itemcategory": "ZTAN",
+              "lm_parentproject": 0,
+              "lm_itemno": "3141000000",
+              "lm_itemdescription": "纵封条万封大盘MPM-7.5mm80μm",
+              "lm_basematerial": "3141000000",
+              "lm_basematerialdescription": "纵封条万封大盘MPM-7.5mm80μm",
+              "lm_productgroup": "30",
+              "lm_quantity": 10.0,
+              "lm_unit": "KG",
+              "lm_plant": "3001",
+              "lm_location": "",
+              "lm_batch": "",
+              "lm_batchquantity": 0,
+              "lm_packagingmethod": "",
+              "lm_grossweight": 500,
+              "lm_netweight": 0,
+              "lm_undertolerance": 10.0,
+              "lm_overtolerance": 10.0,
+              "lm_unitprice": 60.0,
+              "lm_discount": 0,
+              "lm_totalamount": 600.0,
+              "lm_netvalue": 530.97,
+              "lm_taxamount": 69.03,
+              "lm_packagingid": "",
+              "lm_internalUnitPrice": 0,
+              "lm_internalAmount": 0,
+              "lm_dnlineref": 10,
+              "lm_weightunit": "KG",
+              "lm_specification": "",
+              "lm_car_number": "苏B17287"
+            }
+          ]
+        }
+      ],
+      "notes": "DN数据包含交货单头和明细（ITEM数组）。系统会按lm_car_number匹配预约记录，求和lm_grossweight（1000+500=1500KG）更新appointmentWeight"
+    },
+    "upTwoPound": {
+      "description": "待上二磅请求样例",
+      "method": "POST",
+      "url": "{{base_url}}/api/application/upTwoPound",
+      "body": {
+        "json": "{\"CardID\":\"E20080006800940000000000\",\"TruckNo1\":\"B9999KKK\",\"TruckNo2\":\"\",\"LoadoMeterID\":\"001\",\"TaskID\":\"8f258f3e-f280-448c-8319-4d1074e411c7\",\"ATMSTaskID\":\"5637440637\"}"
+      },
+      "notes": "TaskID和ATMSTaskID为任务标识，车牌号需与之前步骤一致"
+    },
+    "twoWrite": {
+      "description": "二磅写入请求样例",
+      "method": "POST",
+      "url": "{{base_url}}/api/application/twoWrite",
+      "body": {
+        "json": "{\"CardID\":\"E20080006800940000000000\",\"TruckNo1\":\"B9999KKK\",\"TruckNo2\":\"\",\"LoadoMeterID\":\"001\",\"TaskID\":\"8d700cc2-6710-4d6b-8e52-66e4d35a5847\",\"SecondWeightTime\":\"2024-06-18 15:01:01\",\"ATMSTaskID\":\"5637451376\",\"UserID\":\"\",\"UserName\":\"\",\"Gross\":\"3900\",\"Tare\":\"2200\",\"Net\":\"1000\",\"PackWeight\":\"0\",\"Fact\":\"1600\"}"
+      },
+      "notes": "Gross=毛重3900，Tare=皮重2200，Net=净重1000，PackWeight=扣重0，Fact=实重1600（用于容差验证）"
+    },
+    "refundCard": {
+      "description": "退卡请求样例",
+      "method": "POST",
+      "url": "{{base_url}}/api/application/refundCard",
+      "body": {
+        "json": "{\"CardID\":\"E20080006800940000000000\",\"CardType\":\"1\",\"TruckNo1\":\"赣C12347\",\"TruckNo2\":\"\",\"RefundTime\":\"2024-06-18 15:05:05\"}"
+      },
+      "notes": "RefundTime为退卡时间，完成称重流程"
+    }
+  },
+  "testDataAnalysis": {
+    "dnWeightCalculation": {
+      "description": "SAP导入DN数据的重量计算示例",
+      "dnNumber": "8000000211",
+      "carNumber": "苏B17287",
+      "items": [
+        {
+          "line": 4,
+          "grossweight": 1000,
+          "weightunit": "KG",
+          "dnlineref": 10
+        },
+        {
+          "line": 5,
+          "grossweight": 500,
+          "weightunit": "KG",
+          "dnlineref": 10
+        }
+      ],
+      "calculation": "总重量 = 1000 + 500 = 1500 KG",
+      "result": "appointmentWeight = 1500, 然后根据容差计算上下浮重量"
+    },
+    "weightValidationExample": {
+      "description": "二磅写入容差验证示例",
+      "appointmentWeight": 1500,
+      "toleranceAdd": 0.05,
+      "toleranceDec": -0.05,
+      "upFloatingWeight": "1500 × 1.05 = 1575 KG",
+      "downFloatingWeight": "1500 × 0.95 = 1425 KG",
+      "actualWeight": 1600,
+      "validation": "1600 > 1575，超出上浮重量，验证失败",
+      "result": "回退到appointmentStatus=3（待上二磅）"
+    }
+  }
+}
