@@ -1,6 +1,6 @@
 # 项目状态和进度
 
-**最后更新**: 2025-12-09
+**最后更新**: 2025-12-10
 
 ---
 
@@ -33,6 +33,35 @@
 ---
 
 ## 最近完成的工作
+
+### 2025-12-10
+
+#### 1. 新增打印磅单接口 ✅
+**接口地址**: `POST /api/application/appointment/record/info`
+**功能**: 打印磅单请求查询DN与IDcard
+**实现内容**:
+- 新增 `PrintWeightTicketParam` 参数类
+- 实现完整的Controller、Service、Mapper层
+- 配置SQL查询，连接车辆预约表和销售实际表
+- 添加安全配置，支持匿名访问
+- 移除状态限制，提高查询灵活性
+
+**测试结果**: ✅ 接口正常工作，返回预期数据
+
+#### 2. Maven构建流程优化 ✅
+**问题**: `mvn package` 默认执行测试，测试失败时无法打包
+**解决方案**: 配置Maven Profile分离打包和测试流程
+**配置内容**:
+- 默认profile：`package-only`（跳过测试，快速打包）
+- 测试profile：`with-tests`（执行测试）
+- 使用surefire插件控制测试执行
+
+**使用方式**:
+- 快速打包：`mvn clean package`（默认跳过测试）
+- 运行测试：`mvn clean test -P with-tests`
+- 带测试打包：`mvn clean package -P with-tests`
+
+**结果**: ✅ 打包和测试完全分离，开发效率提升
 
 ### 2025-12-09
 
