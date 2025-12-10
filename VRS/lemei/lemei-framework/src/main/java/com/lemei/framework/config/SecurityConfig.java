@@ -123,6 +123,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/application/getSupplierList").anonymous()
                 .antMatchers("/api/application/guard/statistics").anonymous()
                 .antMatchers("/api/application/detail").anonymous()
+                .antMatchers("/api/application/appointment/record/info").anonymous()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated()
                 .and()

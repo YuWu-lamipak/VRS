@@ -443,4 +443,13 @@ public interface ApplicationService {
      * @return 结果
      */
     boolean checkScrapAdvanceInfoExists(String name,String date);
+
+    /**
+     * 打印磅单请求查询DN与IDcard
+     *
+     * @param orderId 业务ID
+     * @param businessType 业务类型
+     * @return 结果
+     */
+    ResultData getPrintWeightTicketInfo(String orderId, Integer businessType);
 }

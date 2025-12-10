@@ -1287,4 +1287,40 @@ public class CarApplicationController {
         return response;
     }
 
+    @ApiOperation("打印磅单请求查询DN与IDcard")
+    @PostMapping(value = "/appointment/record/info", produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public Object getPrintWeightTicketInfo(@RequestBody PrintWeightTicketParam param) {
+        try {
+            ResultData result = applicationService.getPrintWeightTicketInfo(param.getOrderId(), param.getBusinessType());
+            if (result != null) {
+                Map<String, Object> responseBody = new HashMap<>();
+                responseBody.put("orderid", result.get("order_id"));
+                responseBody.put("idcard", result.get("IDCard"));
+                responseBody.put("xdrivernameorders", result.get("driver_name"));
+                responseBody.put("lmdnnum", result.get("lm_dnnum"));
+                responseBody.put("carumber", result.get("car_number"));
+                responseBody.put("businesstype", result.get("businessType"));
+                
+                Map<String, Object> response = new HashMap<>();
+                response.put("code", 0);
+                response.put("Message", "");
+                response.put("body", responseBody);
+                return response;
+            } else {
+                Map<String, Object> response = new HashMap<>();
+                response.put("code", 1);
+                response.put("Message", "未找到相关记录");
+                response.put("body", null);
+                return response;
+            }
+        } catch (Exception e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("code", 1);
+            response.put("Message", "查询失败：" + e.getMessage());
+            response.put("body", null);
+            return response;
+        }
+    }
+
 }

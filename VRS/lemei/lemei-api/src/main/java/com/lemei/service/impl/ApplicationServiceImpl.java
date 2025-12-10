@@ -861,4 +861,9 @@ public class ApplicationServiceImpl implements ApplicationService {
     public boolean checkScrapAdvanceInfoExists(String name, String date) {
         return carApplicationMapper.checkScrapAdvanceInfoExists(name,date);
     }
+
+    @Override
+    public ResultData getPrintWeightTicketInfo(String orderId, Integer businessType) {
+        return carApplicationMapper.getPrintWeightTicketInfo(orderId, businessType);
+    }
 }

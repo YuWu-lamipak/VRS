@@ -851,5 +851,13 @@ public interface CarApplicationMapper {
     @Select("SELECT EXISTS (SELECT 1 FROM lm_scrap_advance WHERE oa_name = #{name} and oa_date_time = #{date} )")
     boolean checkScrapAdvanceInfoExists(@Param("name") String name,@Param("date") String date);
 
+    /**
+     * 打印磅单请求查询DN与IDcard
+     *
+     * @param orderId 业务ID
+     * @param businessType 业务类型
+     * @return 结果
+     */
+    ResultData getPrintWeightTicketInfo(@Param("orderId") String orderId, @Param("businessType") Integer businessType);
 
 }

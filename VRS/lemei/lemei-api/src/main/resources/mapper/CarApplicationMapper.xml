@@ -602,5 +602,21 @@
         </trim>
     </insert>
 
+    <!-- 打印磅单请求查询DN与IDcard -->
+    <select id="getPrintWeightTicketInfo" resultType="com.lemei.common.core.domain.ResultData">
+        SELECT DISTINCT  
+            car.order_id AS order_id,
+            sr.lm_dnnum AS lm_dnnum,
+            car.businessType AS businessType,
+            car.car_number AS car_number,
+            car.driver_name AS driver_name,
+            car.IDCard AS IDCard
+        FROM lm_sale_item_real sr 
+        INNER JOIN lm_car_application car ON sr.lm_order_id = car.order_id 
+        WHERE car.businessType = #{businessType} 
+            AND car.order_id = #{orderId}
+        LIMIT 1
+    </select>
+
 </mapper>
 
