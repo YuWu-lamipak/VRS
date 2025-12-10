@@ -674,12 +674,14 @@ public class ApplicationServiceImpl implements ApplicationService {
     public ApplicationEditParam updateApplicationWeight(ApplicationEditParam param){
         ApplicationEditParam param2= carApplicationMapper.getTolerance();
         if (param.getBusinessType()==0){
+            // 采购业务：可选是否启用控制，默认启用容差控制，容差参考值从全局变量获取
             param.setToleranceAdd(param2.getToleranceAdd());
             param.setToleranceDec(param2.getToleranceDec());
             param.setAppointmentWeight(param.getAppointmentWeight() != null ? param.getAppointmentWeight() : BigDecimal.ZERO);
             param.setUpFloatingWeight((param.getAppointmentWeight()).multiply(BigDecimal.ONE.add(param.getToleranceAdd())));
             param.setDownFloatingWeight((param.getAppointmentWeight()).multiply(BigDecimal.ONE.add(param.getToleranceDec())));
         }else if (param.getBusinessType()==1){
+            // 销售业务：默认启用容差控制，预约重量从SAP接口获取，容差参考值从全局变量获取
             param.setToleranceAdd(param2.getToleranceAdd());
             param.setToleranceDec(param2.getToleranceDec());
             param.setAppointmentWeight(BigDecimal.ZERO);
@@ -687,6 +689,10 @@ public class ApplicationServiceImpl implements ApplicationService {
             param.setDownFloatingWeight((param.getAppointmentWeight()).multiply(BigDecimal.ONE.add(param.getToleranceDec())));
         }
         else{
+            // 其他业务类型处理：
+            // 业务类型2（废料）：目前默认不启用容差控制，预约重量从SAP接口获取，管控要求预约重量不为0
+            // 业务类型3（其他）：不管控
+            // 业务类型4（固废危废处置）：目前不启用容差控制
             param.setToleranceAdd(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP));
             param.setToleranceDec(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP));
             param.setAppointmentWeight(param.getAppointmentWeight() != null ? param.getAppointmentWeight() : BigDecimal.ZERO);

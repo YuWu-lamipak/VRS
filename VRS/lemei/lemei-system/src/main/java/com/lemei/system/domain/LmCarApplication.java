@@ -57,7 +57,7 @@ public class LmCarApplication extends BaseEntity {
     @Excel(name = "备注")
     private String remark;
 
-    @Excel(name = "业务类型", readConverterExp = "0=采购,1=销售,2=废料,3=其他")
+    @Excel(name = "业务类型", readConverterExp = "0=采购,1=销售,2=废料,3=其他,4=固废危废处置")
     private Integer businessType;
 
     @Excel(name = "启用管控", readConverterExp = "0=否,1=是")

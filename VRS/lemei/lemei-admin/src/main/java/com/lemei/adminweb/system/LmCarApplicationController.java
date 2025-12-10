@@ -397,13 +397,18 @@ public class LmCarApplicationController extends BaseController {
         lmCarApplication.setEditFlag("No");
         if (lmCarApplication.getBusinessType() != null){
             if (lmCarApplication.getBusinessType() == 1 || lmCarApplication.getBusinessType() == 4  ){
+                // 销售业务：默认启用容差控制，预约重量从SAP接口获取，审核时设置为0
+                // 固废危废处置业务：目前不启用容差控制，审核时设置重量为0
                 lmCarApplication.setAppointmentWeight(BigDecimal.ZERO);
                 lmCarApplication.setUpFloatingWeight(BigDecimal.ZERO);
                 lmCarApplication.setDownFloatingWeight(BigDecimal.ZERO);
             } else if (lmCarApplication.getBusinessType() == 2) {
+                // 废料业务：目前默认不启用容差控制，预约重量从SAP接口获取
+                // 管控要求预约重量不为0，审核通过时需要OA预付款审批
                 lmCarApplication.setAppointmentWeight(BigDecimal.ZERO);
                 lmCarApplication.setUpFloatingWeight(BigDecimal.ZERO);
                 lmCarApplication.setDownFloatingWeight(BigDecimal.ZERO);
+                // 检查废料预付款信息
                 LmCarApplication carApplication = lmCarApplicationService.selectLmCarApplicationByApplicationId(lmCarApplication.getApplicationId());
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String formattedDate = sdf.format(carApplication.getApplicationDate());
