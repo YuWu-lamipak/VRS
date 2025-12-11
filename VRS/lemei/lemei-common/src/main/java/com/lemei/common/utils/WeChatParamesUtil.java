@@ -8,20 +8,41 @@ package com.lemei.common.utils;
  **/
 
 public class WeChatParamesUtil {
-    // 1.微信参数--测试版本
+    /**
+     * 企业微信配置参数
+     * 
+     * 配置方式：
+     * 1. 通过环境变量配置（推荐）
+     *    - WECHAT_CORP_ID: 企业ID
+     *    - WECHAT_CORP_SECRET: 企业应用密钥
+     *    - WECHAT_AGENT_ID: 企业应用ID
+     * 
+     * 2. 通过 application.yml 配置
+     *    wechat:
+     *      corpId: your-corp-id
+     *      corpSecret: your-corp-secret
+     *      agentId: 1000002
+     * 
+     * 获取方式：
+     * 1. 登录企业微信管理后台
+     * 2. 进入"应用管理"查看应用详情
+     * 3. 在"我的企业"中查看企业ID
+     */
+    
     /** 企业ID */
-    public final static String corpId = "ww284525d5744f4627";
-    /** 企业应用私钥OA */
-    public final static String corpsecret = "59DLU3CAIxY__mqhaBPUmS6dHCHOoIXff-2RtdYZFfw";
-    /**  企业应用的id */
-    public final static int agentId = 1000002;
-
-    /** 企业ID */
-//    public final static String corpId = "wwd46492b11746d9d8";
-//    /** 企业应用私钥OA */
-//    public final static String corpsecret = "1N5AOw4iCuyEAhbZha1w-av0ljdADn_lBKyr8TOmSv0";
-//    /**  企业应用的id */
-//    public final static int agentId = 1000037;
-
-    //public final static String aws6url = "http://localhost:8088";
+    public final static String corpId = getEnvOrDefault("WECHAT_CORP_ID", "");
+    
+    /** 企业应用密钥 */
+    public final static String corpsecret = getEnvOrDefault("WECHAT_CORP_SECRET", "");
+    
+    /** 企业应用ID */
+    public final static int agentId = Integer.parseInt(getEnvOrDefault("WECHAT_AGENT_ID", "1000002"));
+    
+    /**
+     * 获取环境变量，如果不存在则返回默认值
+     */
+    private static String getEnvOrDefault(String key, String defaultValue) {
+        String value = System.getenv(key);
+        return (value != null && !value.isEmpty()) ? value : defaultValue;
+    }
 }

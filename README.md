@@ -10,6 +10,8 @@
 
 ## 🚀 快速启动
 
+⚠️ **首次运行前必须配置**: 请先查看 [配置指南](CONFIG_GUIDE.md) 或 [VRS/lemei/SETUP_GUIDE.md](VRS/lemei/SETUP_GUIDE.md)
+
 ### 启动服务
 
 ```cmd
@@ -153,10 +155,12 @@ Test\test-weighing-flow.bat
 
 ## 📞 获取帮助
 
-- 项目详细说明：查看 [项目说明.md](项目说明.md)
-- 测试相关问题：查看 [Test/测试手册.md](Test/测试手册.md)
-- 项目结构说明：查看 `.kiro/steering/structure.md`
-- 技术栈详情：查看 `.kiro/steering/tech.md`
+- **首次配置**: 查看 [配置指南](CONFIG_GUIDE.md) 或 [后端配置指南](VRS/lemei/SETUP_GUIDE.md)
+- **项目详细说明**: 查看 [项目说明.md](项目说明.md)
+- **测试相关问题**: 查看 [Test/测试手册.md](Test/测试手册.md)
+- **安全最佳实践**: 查看 [SECURITY_AUDIT_REPORT.md](SECURITY_AUDIT_REPORT.md)
+- **项目结构说明**: 查看 `.kiro/steering/structure.md`
+- **技术栈详情**: 查看 `.kiro/steering/tech.md`
 
 ---
 
