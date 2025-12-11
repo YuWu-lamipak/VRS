@@ -8,9 +8,30 @@
 
 ---
 
-## 🚀 快速启动
+## ⚠️ 首次运行必读
 
-⚠️ **首次运行前必须配置**: 请先查看 [配置指南](CONFIG_GUIDE.md) 或 [VRS/lemei/SETUP_GUIDE.md](VRS/lemei/SETUP_GUIDE.md)
+**重要**: 本项目已完成敏感信息清理，首次运行前必须配置环境！
+
+### 配置步骤
+
+1. **复制配置文件**
+   ```bash
+   # API 模块
+   cp VRS/lemei/lemei-api/src/main/resources/application-example.yml VRS/lemei/lemei-api/src/main/resources/application-dev.yml
+   
+   # Admin 模块
+   cp VRS/lemei/lemei-admin/src/main/resources/application-example.yml VRS/lemei/lemei-admin/src/main/resources/application-dev.yml
+   ```
+
+2. **编辑配置文件**，填写实际的数据库、Redis 等配置信息
+
+3. **查看详细配置指南**
+   - [配置指南](CONFIG_GUIDE.md) - 简明配置说明
+   - [后端配置指南](VRS/lemei/SETUP_GUIDE.md) - 详细配置步骤
+
+---
+
+## 🚀 快速启动
 
 ### 启动服务
 
@@ -61,8 +82,18 @@ Test\test-weighing-flow.bat
 
 ## 📚 文档
 
+### 配置文档
+- **[CONFIG_GUIDE.md](CONFIG_GUIDE.md)** - 配置指南（必读）
+- **[VRS/lemei/SETUP_GUIDE.md](VRS/lemei/SETUP_GUIDE.md)** - 后端详细配置
+- **[.env.example](.env.example)** - 环境变量示例
+
+### 测试文档
 - **[Test/测试手册.md](Test/测试手册.md)** - 完整的测试指南、流程说明和故障排除
 - **[Test/TestReport/TEST_SUMMARY.md](Test/TestReport/TEST_SUMMARY.md)** - 最新测试报告
+
+### 安全文档
+- **[CLEANUP_COMPLETED.md](CLEANUP_COMPLETED.md)** - 敏感信息清理报告
+- **[CONFIG_GUIDE.md](CONFIG_GUIDE.md)** - 配置指南（含安全最佳实践）
 
 ---
 
@@ -76,6 +107,7 @@ Test\test-weighing-flow.bat
 │   │   ├── lemei-api/      # API 服务（端口 8601）
 │   │   ├── lemei-system/   # 系统模块
 │   │   ├── lemei-common/   # 通用模块
+│   │   ├── SETUP_GUIDE.md  # 后端配置指南
 │   │   └── ...
 │   ├── lemei-ui/           # 前端管理后台（Vue.js，端口 80）
 │   └── LMXCX/             # 微信小程序（uni-app）
@@ -88,6 +120,10 @@ Test\test-weighing-flow.bat
 │   ├── 测试手册.md        # 测试指南
 │   ├── run-tests.bat      # 单元测试脚本
 │   └── ...
+├── .env.example           # 环境变量示例（必读）
+├── CONFIG_GUIDE.md        # 配置指南（必读）
+├── SECURITY_AUDIT_REPORT.md  # 安全审计报告
+├── CLEANUP_COMPLETED.md   # 敏感信息清理报告
 ├── 项目说明.md            # 项目说明文档
 └── README.md             # 本文档（快速启动）
 ```
@@ -155,12 +191,40 @@ Test\test-weighing-flow.bat
 
 ## 📞 获取帮助
 
-- **首次配置**: 查看 [配置指南](CONFIG_GUIDE.md) 或 [后端配置指南](VRS/lemei/SETUP_GUIDE.md)
-- **项目详细说明**: 查看 [项目说明.md](项目说明.md)
-- **测试相关问题**: 查看 [Test/测试手册.md](Test/测试手册.md)
-- **安全最佳实践**: 查看 [SECURITY_AUDIT_REPORT.md](SECURITY_AUDIT_REPORT.md)
-- **项目结构说明**: 查看 `.kiro/steering/structure.md`
-- **技术栈详情**: 查看 `.kiro/steering/tech.md`
+### 配置相关
+- **首次配置**: [CONFIG_GUIDE.md](CONFIG_GUIDE.md) 或 [VRS/lemei/SETUP_GUIDE.md](VRS/lemei/SETUP_GUIDE.md)
+- **环境变量**: [.env.example](.env.example)
+- **配置模板**: `VRS/lemei/*/src/main/resources/application-example.yml`
+
+### 项目文档
+- **项目详细说明**: [项目说明.md](项目说明.md)
+- **需求文档**: [需求说明书.md](需求说明书.md)
+- **文档结构**: [.github/README.md](.github/README.md)
+
+### 测试相关
+- **测试指南**: [Test/测试手册.md](Test/测试手册.md)
+- **测试报告**: [Test/TestReport/TEST_SUMMARY.md](Test/TestReport/TEST_SUMMARY.md)
+
+### 安全相关
+- **清理报告**: [CLEANUP_COMPLETED.md](CLEANUP_COMPLETED.md)（含备份和回滚信息）
+- **配置安全**: 查看 [CONFIG_GUIDE.md](CONFIG_GUIDE.md) 的安全最佳实践章节
+
+### 技术细节
+- **项目结构**: `.kiro/steering/structure.md`
+- **技术栈**: `.kiro/steering/tech.md`
+- **项目状态**: `.kiro/steering/status.md`
+
+---
+
+## 🔒 安全说明
+
+本项目已完成敏感信息清理（2025-12-11）：
+- ✅ 所有敏感配置已移除
+- ✅ 使用环境变量和配置模板
+- ✅ 完整的安全审计和文档
+- ✅ 备份分支可随时回滚
+
+**详见**: [CLEANUP_COMPLETED.md](CLEANUP_COMPLETED.md)
 
 ---
 
