@@ -65,10 +65,18 @@ public class UserController {
     @GetMapping(value = "/getCheckerList")
     public Object getCheckerList(@RequestParam("roleId")@NotNull(message = "角色id不能为空") Integer roleId){
         //roleId  固定144
-        Long userId = SecurityUtils.getUserId();
-        System.out.println(userId);
-        System.out.println(userService.getUsersByUserType(null,null,roleId,userId));
-        return AjaxResult.success(userService.getUsersByUserType(null,null,roleId,userId));
+        try {
+            LoginUser loginUser = SecurityUtils.getLoginUser();
+            if (loginUser == null) {
+                return AjaxResult.error("用户未登录");
+            }
+            Long userId = loginUser.getUserId();
+            System.out.println("当前用户ID: " + userId + ", 线程: " + Thread.currentThread().getName());
+            return AjaxResult.success(userService.getUsersByUserType(null,null,roleId,userId));
+        } catch (Exception e) {
+            System.err.println("获取用户信息失败: " + e.getMessage());
+            return AjaxResult.error("获取用户信息失败，请重新登录");
+        }
     }
 
 

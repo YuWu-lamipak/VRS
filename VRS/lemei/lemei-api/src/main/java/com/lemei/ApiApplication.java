@@ -15,7 +15,11 @@ import java.net.InetAddress;
 /**
  * WEB 端Api 接口
  */
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
+@SpringBootApplication(exclude = { 
+    DataSourceAutoConfiguration.class,
+    org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class,
+    org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration.class
+})
 @EnableScheduling
 @EnableAsync //开启异步注解
 public class ApiApplication {
