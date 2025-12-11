@@ -1,6 +1,7 @@
 # IDE
 .idea/
 .vscode/
+*.iml
 
 # 构建输出
 VRS/lemei/*/target/
@@ -10,23 +11,35 @@ VRS/LMXCX/*/node_modules/
 VRS/LMXCX/*/dist/
 VRS/LMXCX/*/unpackage/
 
-# 测试报告（保留模板）
-TestReport/*.txt
-TestReport/*.xml
-TestReport/lemei-*/
-TestReport/TEST_SUMMARY.md
+# 测试报告（保留模板和最新报告）
+Test/TestReport/*.txt
+Test/TestReport/*.xml
+Test/TestReport/lemei-admin/*.txt
+Test/TestReport/lemei-admin/*.xml
+Test/TestReport/lemei-api/*.txt
+Test/TestReport/lemei-api/*.xml
+Test/TestReport/lemei-system/*.txt
+Test/TestReport/lemei-system/*.xml
+!Test/TestReport/TEST_SUMMARY.md
+
+# 旧的测试报告目录（已废弃）
+TestReport/
 
 # 日志文件
 *.log
+logs/
 
 # 临时文件
 *.bak
 *.tmp
 *.swp
+*~
+tatus
 
 # 系统文件
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # Maven
 .mvn/
@@ -49,3 +62,23 @@ bin/
 # 环境配置（如果包含敏感信息）
 # application-prod.yml
 # application-dev.yml
+
+# Git提交临时文件
+提交状态-*.md
+GIT_COMMIT_MESSAGE.md
+
+# 备份文件
+*备份*.md
+项目状态备份*.md
+
+# 差异分析文件
+*_diff*.txt
+*_comparison*.txt
+*_report*.txt
+jar_*.txt
+mapper_*.txt
+
+# 临时分析文件
+temp_*/
+dif/
+CarApplicationMapper_*.xml
