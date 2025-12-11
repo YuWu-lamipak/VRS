@@ -1,149 +1,163 @@
-# 文档结构说明
+# 乐美车辆预约系统
 
-本文档说明项目中各类文档的组织结构和用途。
+**版本**: 3.7.0  
+**最后更新**: 2025-12-11  
+**最新修复**: 多用户会话隔离问题✅
+
+一个综合性的车辆预约和管理系统，包含后端API、管理后台和微信小程序。
 
 ---
 
-## 📁 文档组织
+## 🚀 快速启动
 
-### 根目录文档
+### 启动服务
 
-| 文档 | 说明 | 受众 |
-|------|------|------|
-| `README.md` | 项目主文档，快速启动指南 | 所有用户 |
-| `项目说明.md` | 完整的项目概述和技术文档 | 开发人员、项目经理 |
+```cmd
+# 启动后端管理服务（端口 8066）
+"Start Engine\start-backend-fixed.bat"
 
-### Test 文件夹（测试相关）
+# 启动 API 服务（端口 8601）
+"Start Engine\start-api.bat"
 
-| 文档/脚本 | 说明 | 受众 |
-|----------|------|------|
-| `测试手册.md` | 完整的测试指南和故障排除 | 测试人员、开发人员 |
-| `run-tests.bat` | 单元测试脚本 | 开发人员 |
-| `test-weighing-flow-auto.bat` | 称重流程测试（智能版） | 测试人员 |
-| `test-weighing-flow.bat` | 称重流程测试（标准版） | 测试人员 |
-| `.postman.json` | Postman配置文件 | API测试人员 |
-| `TestReport/` | 测试报告目录 | 所有人 |
-
-### Start Engine 文件夹（服务启动）
-
-| 脚本 | 说明 | 受众 |
-|------|------|------|
-| `start-backend-fixed.bat` | 启动后端管理服务 | 运维人员、开发人员 |
-| `start-api.bat` | 启动API服务 | 运维人员、开发人员 |
-| `start-all.bat` | 启动所有服务 | 运维人员 |
-| `stop-all.bat` | 停止所有服务 | 运维人员 |
-| `check-services.bat` | 检查服务状态 | 运维人员、开发人员 |
-
-### Steering文档（AI助手上下文）
-
-位置：`.kiro/steering/`
-
-| 文档 | 说明 | 用途 |
-|------|------|------|
-| `product.md` | 产品概述和项目状态 | AI助手理解项目背景 |
-| `structure.md` | 项目结构说明 | AI助手理解代码组织 |
-| `tech.md` | 技术栈详情 | AI助手理解技术选型 |
-| `status.md` | 项目状态和进度 | AI助手了解当前状态 |
-
-### 测试报告
-
-位置：`Test/TestReport/`
-
+# 启动前端管理后台（端口 80）
+cd VRS\lemei-ui
+npm run dev
 ```
-Test/TestReport/
-├── TEST_SUMMARY.md                    # 单元测试总结（UTF-8编码）
-├── WeighingFlow_Auto_*.txt            # 智能版称重流程测试报告
-├── lemei-admin/                       # 控制器测试详细报告
-│   ├── *.txt                          # 文本格式
-│   └── TEST-*.xml                     # JUnit XML格式
-├── lemei-api/                         # API测试详细报告
-│   ├── *.txt
-│   └── TEST-*.xml
-└── lemei-system/                      # 单元测试详细报告
-    ├── *.txt
-    └── TEST-*.xml
+
+### 检查服务状态
+
+```cmd
+# 检查服务端口
+netstat -ano | findstr "8066 8601"
+
+# 或使用检查脚本
+"Start Engine\check-services.bat"
 ```
 
 ---
 
-## 🔄 文档更新历史
+## 🧪 运行测试
 
-### 2025-12-09（最新）
-- ✅ 重组项目文档结构
-- ✅ 创建`Test/`文件夹，集中管理测试相关文件
-- ✅ 创建`Start Engine/`文件夹，集中管理服务启动脚本
-- ✅ 创建`项目说明.md`，提供完整的项目概述
-- ✅ 更新所有文档中的文件路径引用
-- ✅ 优化文档组织结构
+### 单元测试（15个测试用例）
 
-### 2025-12-09（早期）
-- ✅ 创建统一的`测试手册.md`
-- ✅ 简化`README.md`，聚焦快速启动
-- ✅ 删除重复和过时的文档：
-  - `TESTING.md`
-  - `TEST_SCRIPTS.md`
-  - `AUTOMATED_TESTING.md`
-  - `test-weighing-flow-fixed.ps1`
-  - `TestReport/SUMMARY_TEMPLATE.md`
+```cmd
+# 双击运行或命令行执行
+Test\run-tests.bat
+```
 
-### 2025-12-05
-- ✅ 整合测试相关文档
-- ✅ 更新Steering文档
-- ✅ 优化文档结构
+### 称重流程测试（推荐智能版）
+
+```cmd
+# 智能版：自动创建和清理数据，可重复运行
+Test\test-weighing-flow-auto.bat
+
+# 标准版：使用固定测试数据
+Test\test-weighing-flow.bat
+```
 
 ---
 
-## 📝 文档维护原则
+## 📚 文档
 
-1. **单一职责**：每个文档只负责一个主题
-2. **避免重复**：相同信息只在一个地方维护
-3. **清晰分层**：
-   - 根目录：用户文档（快速启动、测试指南）
-   - Steering：AI助手上下文（项目背景、技术细节）
-   - TestReport：测试报告（自动生成）
-4. **及时更新**：文档与代码同步更新
+- **[Test/测试手册.md](Test/测试手册.md)** - 完整的测试指南、流程说明和故障排除
+- **[Test/TestReport/TEST_SUMMARY.md](Test/TestReport/TEST_SUMMARY.md)** - 最新测试报告
 
 ---
 
-## 🎯 文档使用指南
+## 📁 项目结构
 
-### 新用户
-1. 阅读 `README.md` 了解项目和快速启动
-2. 阅读 `项目说明.md` 了解项目详细信息
-3. 阅读 `Test/测试手册.md` 学习如何运行测试
-
-### 开发人员
-1. 参考 `README.md` 启动开发环境
-2. 参考 `项目说明.md` 了解技术架构
-3. 参考 `Test/测试手册.md` 运行和编写测试
-4. 查看 `.kiro/steering/` 了解项目详细信息
-
-### 测试人员
-1. 使用 `Test/测试手册.md` 作为主要参考
-2. 运行 `Test/` 文件夹中的测试脚本
-3. 查看 `Test/TestReport/` 中的测试报告
-4. 使用 `Test/.postman.json` 进行API测试
-
-### 运维人员
-1. 使用 `Start Engine/` 文件夹中的脚本管理服务
-2. 参考 `项目说明.md` 了解部署架构
-3. 使用 `Start Engine/check-services.bat` 检查服务状态
-
-### AI助手
-1. 自动加载 `.kiro/steering/` 中的上下文文档
-2. 参考用户文档回答问题
-3. 根据项目状态提供建议
+```
+项目根目录/
+├── VRS/
+│   ├── lemei/              # 后端 Java 应用（Spring Boot）
+│   │   ├── lemei-admin/    # 管理后台服务（端口 8066）
+│   │   ├── lemei-api/      # API 服务（端口 8601）
+│   │   ├── lemei-system/   # 系统模块
+│   │   ├── lemei-common/   # 通用模块
+│   │   └── ...
+│   ├── lemei-ui/           # 前端管理后台（Vue.js，端口 80）
+│   └── LMXCX/             # 微信小程序（uni-app）
+├── Start Engine/          # 服务启动脚本
+│   ├── start-backend-fixed.bat
+│   ├── start-api.bat
+│   └── ...
+├── Test/                  # 测试相关文件
+│   ├── TestReport/        # 测试报告目录
+│   ├── 测试手册.md        # 测试指南
+│   ├── run-tests.bat      # 单元测试脚本
+│   └── ...
+├── 项目说明.md            # 项目说明文档
+└── README.md             # 本文档（快速启动）
+```
 
 ---
 
-## 📞 文档反馈
+## 🛠️ 技术栈
 
-如发现文档问题或有改进建议，请：
-1. 检查是否有重复或过时的信息
-2. 确认文档是否符合维护原则
-3. 提出具体的改进建议
+### 后端
+- Java 1.8
+- Spring Boot 2.5.6
+- MyBatis 2.2.0
+- MySQL + Redis
+
+### 前端
+- Vue 2.6.12
+- Element UI 2.15.6
+- Axios 0.24.0
+
+### 小程序
+- uni-app
+- uView UI 2.0.37
+
+### 测试
+- JUnit 4
+- Mockito
+- REST Assured
 
 ---
 
-**文档版本**: 3.0  
-**最后更新**: 2025-12-09
+## 🌐 服务地址
+
+| 服务 | 地址 | 端口 |
+|------|------|------|
+| 前端管理后台 | http://localhost | 80 |
+| 后端管理服务 | http://localhost:8066/dev | 8066 |
+| API 服务 | http://localhost:8601 | 8601 |
+| Swagger 文档 | http://localhost:8601/swagger-ui/index.html | 8601 |
+| MySQL | localhost | 3306 |
+| Redis | localhost | 6379 |
+
+---
+
+## 📝 常用脚本
+
+### 启动脚本（Start Engine/）
+
+| 脚本 | 说明 |
+|------|------|
+| `start-backend-fixed.bat` | 启动后端管理服务（端口8066） |
+| `start-api.bat` | 启动API服务（端口8601） |
+| `start-all.bat` | 启动所有服务 |
+| `stop-all.bat` | 停止所有服务 |
+| `check-services.bat` | 检查服务状态 |
+
+### 测试脚本（Test/）
+
+| 脚本 | 说明 |
+|------|------|
+| `run-tests.bat` | 运行单元测试（15个测试用例） |
+| `test-weighing-flow-auto.bat` | 运行称重流程测试（智能版，推荐） |
+| `test-weighing-flow.bat` | 运行称重流程测试（标准版） |
+
+---
+
+## 📞 获取帮助
+
+- 项目详细说明：查看 [项目说明.md](项目说明.md)
+- 测试相关问题：查看 [Test/测试手册.md](Test/测试手册.md)
+- 项目结构说明：查看 `.kiro/steering/structure.md`
+- 技术栈详情：查看 `.kiro/steering/tech.md`
+
+---
+
+**开发愉快！** 🎉
