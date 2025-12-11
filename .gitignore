@@ -92,5 +92,7 @@ temp_*/
 dif/
 CarApplicationMapper_*.xml
 
-# 敏感信息审计报告（包含敏感信息清单，不应公开）
+# 敏感信息审计和清理报告（包含敏感信息清单和清理细节，不应公开）
 SECURITY_AUDIT_REPORT.md
+CLEANUP_COMPLETED.md
+CLEANUP_SUMMARY.md

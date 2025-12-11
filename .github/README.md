@@ -140,7 +140,7 @@
 
 **适用人群**: 开发人员、技术支持
 
-#### 13. 快速部署-多用户修复版本.md
+#### 9. 快速部署-多用户修复版本.md
 **用途**: 快速部署指南  
 **内容**:
 - 快速部署步骤
@@ -155,7 +155,7 @@
 
 ### 测试文档（Test/）
 
-#### 14. Test/测试手册.md
+#### 10. Test/测试手册.md
 **用途**: 完整的测试指南  
 **内容**:
 - 测试环境准备
@@ -167,7 +167,7 @@
 
 **适用人群**: 测试人员、QA团队
 
-#### 15. Test/TestReport/TEST_SUMMARY.md
+#### 11. Test/TestReport/TEST_SUMMARY.md
 **用途**: 最新测试报告  
 **内容**:
 - 测试执行时间
@@ -181,7 +181,7 @@
 
 ### AI助手上下文文档（.kiro/steering/）
 
-#### 16. .kiro/steering/product.md
+#### 12. .kiro/steering/product.md
 **用途**: 产品概述和项目状态  
 **内容**:
 - 产品概述
@@ -194,7 +194,7 @@
 
 **适用人群**: AI助手、项目团队
 
-#### 17. .kiro/steering/structure.md
+#### 13. .kiro/steering/structure.md
 **用途**: 项目结构说明  
 **内容**:
 - 根目录组织
@@ -206,7 +206,7 @@
 
 **适用人群**: AI助手、新开发者
 
-#### 18. .kiro/steering/tech.md
+#### 14. .kiro/steering/tech.md
 **用途**: 技术栈详情  
 **内容**:
 - 后端技术栈
@@ -220,7 +220,7 @@
 
 **适用人群**: AI助手、技术团队
 
-#### 19. .kiro/steering/status.md
+#### 15. .kiro/steering/status.md
 **用途**: 项目状态和进度  
 **内容**:
 - 当前状态
@@ -277,7 +277,6 @@
 │       └── status.md              # 项目状态和进度
 ├── .env.example                   # 环境变量示例（必读）
 ├── CONFIG_GUIDE.md                # 配置指南（必读，含安全最佳实践）
-├── CLEANUP_COMPLETED.md           # 敏感信息清理报告
 ├── VRS/                           # 源代码目录
 │   ├── lemei/                     # 后端Java应用
 │   │   ├── SETUP_GUIDE.md         # 后端配置指南
@@ -369,8 +368,8 @@
 4. **Start Engine/** - 启动脚本
 
 ### 安全/项目负责人
-1. **CLEANUP_COMPLETED.md** - 敏感信息清理报告（含备份和回滚信息）
-2. **CONFIG_GUIDE.md** - 配置指南（含安全最佳实践）
+1. **CONFIG_GUIDE.md** - 配置指南（含安全最佳实践）
+2. **项目说明.md** - 包含敏感信息清理说明
 
 ---
 

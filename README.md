@@ -92,7 +92,6 @@ Test\test-weighing-flow.bat
 - **[Test/TestReport/TEST_SUMMARY.md](Test/TestReport/TEST_SUMMARY.md)** - 最新测试报告
 
 ### 安全文档
-- **[CLEANUP_COMPLETED.md](CLEANUP_COMPLETED.md)** - 敏感信息清理报告
 - **[CONFIG_GUIDE.md](CONFIG_GUIDE.md)** - 配置指南（含安全最佳实践）
 
 ---
@@ -206,8 +205,8 @@ Test\test-weighing-flow.bat
 - **测试报告**: [Test/TestReport/TEST_SUMMARY.md](Test/TestReport/TEST_SUMMARY.md)
 
 ### 安全相关
-- **清理报告**: [CLEANUP_COMPLETED.md](CLEANUP_COMPLETED.md)（含备份和回滚信息）
 - **配置安全**: 查看 [CONFIG_GUIDE.md](CONFIG_GUIDE.md) 的安全最佳实践章节
+- **安全说明**: 项目已完成敏感信息清理（2025-12-11）
 
 ### 技术细节
 - **项目结构**: `.kiro/steering/structure.md`
@@ -221,10 +220,10 @@ Test\test-weighing-flow.bat
 本项目已完成敏感信息清理（2025-12-11）：
 - ✅ 所有敏感配置已移除
 - ✅ 使用环境变量和配置模板
-- ✅ 完整的安全审计和文档
+- ✅ 完整的配置文档和指南
 - ✅ 备份分支可随时回滚
 
-**详见**: [CLEANUP_COMPLETED.md](CLEANUP_COMPLETED.md)
+**配置指南**: [CONFIG_GUIDE.md](CONFIG_GUIDE.md)
 
 ---
 
