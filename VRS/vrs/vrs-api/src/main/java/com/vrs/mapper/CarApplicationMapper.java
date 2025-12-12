@@ -172,7 +172,7 @@ public interface CarApplicationMapper {
      * @param
      * @return 车辆预约
      */
-    @Select("select max(serialNumber) from lm_car_application for update")
+    @Select("select max(serialNumber) from VRS_car_application for update")
     Long selectMaxSerialNumber();
 
     /**
@@ -240,7 +240,7 @@ public interface CarApplicationMapper {
      * @param vrsDnnum,vrsDnLine
      * @return 结果
      */
-    @Select("SELECT EXISTS (SELECT 1 FROM lm_sale_item_insert WHERE lm_dnnum = #{vrsDnnum} AND lm_dnline = #{vrsDnLine})")
+    @Select("SELECT EXISTS (SELECT 1 FROM VRS_sale_item_insert WHERE VRS_dnnum = #{vrsDnnum} AND VRS_dnline = #{vrsDnLine})")
     boolean checkRecordExists(@Param("vrsDnnum") String vrsDnnum, @Param("vrsDnLine") String vrsDnLine);
 
     /**
@@ -249,7 +249,7 @@ public interface CarApplicationMapper {
      * @param vrsDnnum,vrsDnLine
      * @return 结果
      */
-    @Delete("DELETE FROM lm_sale_item_insert WHERE lm_dnnum = #{vrsDnnum} AND lm_dnline = #{vrsDnLine}")
+    @Delete("DELETE FROM VRS_sale_item_insert WHERE VRS_dnnum = #{vrsDnnum} AND VRS_dnline = #{vrsDnLine}")
     int deleteByvrsDnnumAndvrsDnLine(@Param("vrsDnnum") String vrsDnnum, @Param("vrsDnLine") String vrsDnLine);
 
     /**
@@ -258,7 +258,7 @@ public interface CarApplicationMapper {
      * @param vrsDnnum,vrsDnLine
      * @return 结果
      */
-    @Delete("DELETE FROM lm_sale_item_real WHERE lm_loadTime >= #{yesterday} and lm_dnnum = #{vrsDnnum} AND lm_dnline = #{vrsDnLine} AND lm_order_id IS NULL")
+    @Delete("DELETE FROM VRS_sale_item_real WHERE VRS_loadTime >= #{yesterday} and VRS_dnnum = #{vrsDnnum} AND VRS_dnline = #{vrsDnLine} AND VRS_order_id IS NULL")
     int deleteByvrsDnnumAndvrsDnLineAndDate(@Param("yesterday") java.sql.Date yesterday, @Param("vrsDnnum") String vrsDnnum, @Param("vrsDnLine") String vrsDnLine);
 
     /**
@@ -266,7 +266,7 @@ public interface CarApplicationMapper {
      *
      * @return
      */
-    int updateLmSalesOrderItemByvrsDnnumAndvrsDnLine(VRSDeliveryItemField VRSDeliveryItemField);
+    int updateVRSSalesOrderItemByvrsDnnumAndvrsDnLine(VRSDeliveryItemField VRSDeliveryItemField);
 
     /**
      * 新增出货装箱单行
@@ -282,15 +282,15 @@ public interface CarApplicationMapper {
      * @return 结果
      */
     @Results({
-            @Result(column = "lm_dnnum", property = "vrsDnnum"),
-            @Result(column = "lm_actualdeliverydate", property = "vrsActualdeliverydate"),
-            @Result(column = "lm_loadTime", property = "lmLoadTime"),
-            @Result(column = "lm_car_number", property = "vrsCarNumber"),
-            @Result(column = "lm_dnline", property = "vrsDnLine"),
-            @Result(column = "lm_packagingid", property = "vrsPackagingid"),
-            @Result(column = "lm_grossweight", property = "vrsGrossweight")
+            @Result(column = "VRS_dnnum", property = "vrsDnnum"),
+            @Result(column = "VRS_actualdeliverydate", property = "vrsActualdeliverydate"),
+            @Result(column = "VRS_loadTime", property = "lmLoadTime"),
+            @Result(column = "VRS_car_number", property = "vrsCarNumber"),
+            @Result(column = "VRS_dnline", property = "vrsDnLine"),
+            @Result(column = "VRS_packagingid", property = "vrsPackagingid"),
+            @Result(column = "VRS_grossweight", property = "vrsGrossweight")
     })
-    @Select("SELECT lm_dnnum, lm_actualdeliverydate, lm_loadTime, lm_dnline, lm_car_number, lm_packagingid, lm_grossweight FROM lm_sale_item_insert where lm_loadTime >= #{yesterday} AND lm_match_flag IS NULL")
+    @Select("SELECT VRS_dnnum, VRS_actualdeliverydate, VRS_loadTime, VRS_dnline, VRS_car_number, VRS_packagingid, VRS_grossweight FROM VRS_sale_item_insert where VRS_loadTime >= #{yesterday} AND VRS_match_flag IS NULL")
     List<VRSDeliveryItemField> selectVRSDeliveryItemFieldInsertList(@Param("yesterday") java.sql.Date yesterday);
 
     /**
@@ -299,7 +299,7 @@ public interface CarApplicationMapper {
      * @param VRSDeliveryItemReal 出货装箱单行
      * @return 结果
      */
-    @Insert("INSERT INTO lm_sale_item_real (lm_Id, lm_dnnum, lm_actualdeliverydate, lm_loadTime, lm_dnline, lm_order_id, lm_car_number, lm_packagingid, lm_grossweight, lm_insert_time) " +
+    @Insert("INSERT INTO VRS_sale_item_real (VRS_Id, VRS_dnnum, VRS_actualdeliverydate, VRS_loadTime, VRS_dnline, VRS_order_id, VRS_car_number, VRS_packagingid, VRS_grossweight, VRS_insert_time) " +
             "VALUES (#{vrsId}, #{vrsDnnum}, #{vrsActualdeliverydate}, #{lmLoadTime}, #{vrsDnLine}, #{vrsOrderid}, #{vrsCarNumber}, #{vrsPackagingid}, #{vrsGrossweight}, #{vrsInsertTime})")
     int insertVRSDeliveryItemFieldReal(VRSDeliveryItemReal VRSDeliveryItemReal);
 
@@ -309,7 +309,7 @@ public interface CarApplicationMapper {
      * @param vrsDnnum,vrsDnLine
      * @return 结果
      */
-    @Select("SELECT EXISTS (SELECT 1 FROM lm_sale_item_real WHERE lm_loadTime >= #{yesterday} and lm_dnnum = #{vrsDnnum} AND lm_dnline= #{vrsDnLine})")
+    @Select("SELECT EXISTS (SELECT 1 FROM VRS_sale_item_real WHERE VRS_loadTime >= #{yesterday} and VRS_dnnum = #{vrsDnnum} AND VRS_dnline= #{vrsDnLine})")
     boolean checkSaleExists(@Param("yesterday") java.sql.Date yesterday, @Param("vrsDnnum") String vrsDnnum, @Param("vrsDnLine") String vrsDnLine);
 
     /**
@@ -318,7 +318,7 @@ public interface CarApplicationMapper {
      * @param vrsDnnum,vrsDnLine
      * @return 结果
      */
-    @Select("SELECT EXISTS (SELECT 1 FROM lm_sale_item_real WHERE lm_dnnum = #{vrsDnnum} AND lm_dnline= #{vrsDnLine})")
+    @Select("SELECT EXISTS (SELECT 1 FROM VRS_sale_item_real WHERE VRS_dnnum = #{vrsDnnum} AND VRS_dnline= #{vrsDnLine})")
     boolean checkSaleExistsNoDate(@Param("vrsDnnum") String vrsDnnum, @Param("vrsDnLine") String vrsDnLine);
 
     /**
@@ -328,19 +328,19 @@ public interface CarApplicationMapper {
      * @return 结果
      */
     @Update({
-            "UPDATE lm_sale_item_real",
-            "SET lm_actualdeliverydate = #{vrsActualdeliverydate},",
-            "lm_loadTime = #{lmLoadTime},",
-            "lm_dnline = #{vrsDnLine},",
-            "lm_order_id = CASE",
-            "    WHEN #{vrsOrderid} IS NOT NULL OR lm_order_id IS NOT NULL THEN COALESCE(lm_order_id, #{vrsOrderid})",
+            "UPDATE VRS_sale_item_real",
+            "SET VRS_actualdeliverydate = #{vrsActualdeliverydate},",
+            "VRS_loadTime = #{lmLoadTime},",
+            "VRS_dnline = #{vrsDnLine},",
+            "VRS_order_id = CASE",
+            "    WHEN #{vrsOrderid} IS NOT NULL OR VRS_order_id IS NOT NULL THEN COALESCE(VRS_order_id, #{vrsOrderid})",
             "    ELSE #{vrsOrderid}",
             "END,",
-            "lm_car_number = #{vrsCarNumber},",
-            "lm_grossweight = #{vrsGrossweight},",
-            "lm_update_time = #{vrsUpdateTime}",
-            "WHERE lm_dnnum = #{vrsDnnum}",
-            "AND lm_dnline = #{vrsDnLine}"
+            "VRS_car_number = #{vrsCarNumber},",
+            "VRS_grossweight = #{vrsGrossweight},",
+            "VRS_update_time = #{vrsUpdateTime}",
+            "WHERE VRS_dnnum = #{vrsDnnum}",
+            "AND VRS_dnline = #{vrsDnLine}"
     })
     int updateVRSDeliveryItemFieldReal(VRSDeliveryItemReal VRSDeliveryItemReal);
 
@@ -350,9 +350,9 @@ public interface CarApplicationMapper {
      * @param carNumber
      * @return 结果
      */
-    @Select("SELECT SUM(lm_grossweight) AS total_grossweight " +
-            "FROM lm_sale_item_real " +
-            "WHERE lm_order_id IN (" +
+    @Select("SELECT SUM(VRS_grossweight) AS total_grossweight " +
+            "FROM VRS_sale_item_real " +
+            "WHERE VRS_order_id IN (" +
             "    SELECT order_id " +
             "    FROM lm_car_application " +
             "    WHERE car_number = #{carNumber} " +
@@ -384,17 +384,17 @@ public interface CarApplicationMapper {
     List<Map<String, String>> getMapByAppointmentStatus();
 
     /**
-     * 通过预约号码不为空，对lm_sale_item_insert中的lm_match_flag标记进行赋值为Yes
+     * 通过预约号码不为空，对VRS_sale_item_insert中的VRS_match_flag标记进行赋值为Yes
      *
      * @return 结果
      */
-    @Update("UPDATE lm_sale_item_insert si " +
-            "JOIN lm_sale_item_real sr " +
-            "ON si.lm_dnnum = sr.lm_dnnum AND si.lm_dnline = sr.lm_dnline " +
-            "SET si.lm_match_flag = 'Yes' " +
-            "WHERE sr.lm_order_id IS NOT NULL " +
-            "AND si.lm_loadTime >= #{yesterday}")
-    int updateLmMatchFlag(@Param("yesterday") java.sql.Date yesterday);
+    @Update("UPDATE VRS_sale_item_insert si " +
+            "JOIN VRS_sale_item_real sr " +
+            "ON si.VRS_dnnum = sr.VRS_dnnum AND si.VRS_dnline = sr.VRS_dnline " +
+            "SET si.VRS_match_flag = 'Yes' " +
+            "WHERE sr.VRS_order_id IS NOT NULL " +
+            "AND si.VRS_loadTime >= #{yesterday}")
+    int updateVRSMatchFlag(@Param("yesterday") java.sql.Date yesterday);
 
     /**
      * 通过预约号码进行分组，查询毛重的和存入到车辆预约表lm_car_application中
@@ -427,10 +427,10 @@ public interface CarApplicationMapper {
 
     @Update("UPDATE lm_car_application ca " +
             "JOIN ( " +
-            " SELECT sir.lm_order_id, " +
-            " SUM(sir.lm_grossweight) AS total_weight " +
-            " FROM lm_sale_item_real sir " + "WHERE sir.lm_loadTime>=#{yesterday}"+
-            " GROUP BY sir.lm_order_id " +
+            " SELECT sir.VRS_order_id, " +
+            " SUM(sir.VRS_grossweight) AS total_weight " +
+            " FROM VRS_sale_item_real sir " + "WHERE sir.VRS_loadTime>=#{yesterday}"+
+            " GROUP BY sir.VRS_order_id " +
             ") AS subquery " +
             "ON ca.order_id = subquery.lm_order_id " +
             "SET ca.appointmentWeight = subquery.total_weight, " +
@@ -543,14 +543,14 @@ public interface CarApplicationMapper {
 
         public String batchDeleteByvrsDnnumAndvrsDnLineAndDate(@Param("yesterday") java.sql.Date yesterday, @Param("vrsDnnums") List<String> vrsDnnums, @Param("vrsDnLines") List<String> vrsDnLines) {
             StringBuilder sql = new StringBuilder();
-            sql.append("DELETE FROM lm_sale_item_Real WHERE lm_loadTime >= #{yesterday} and lm_order_id is null and lm_dnnum IN (");
+            sql.append("DELETE FROM VRS_sale_item_Real WHERE VRS_loadTime >= #{yesterday} and VRS_order_id is null and VRS_dnnum IN (");
             for (int i = 0; i < vrsDnnums.size(); i++) {
                 sql.append("#{vrsDnnums[").append(i).append("]}");
                 if (i < vrsDnnums.size() - 1) {
                     sql.append(",");
                 }
             }
-            sql.append(") AND lm_dnline IN (");
+            sql.append(") AND VRS_dnline IN (");
             for (int i = 0; i < vrsDnLines.size(); i++) {
                 sql.append("#{vrsDnLines[").append(i).append("]}");
                 if (i < vrsDnLines.size() - 1) {
@@ -563,7 +563,7 @@ public interface CarApplicationMapper {
 
         public String batchDeleteByvrsDnnumAndvrsDnLineReal(@Param("vrsDnnums") List<String> vrsDnnums, @Param("vrsDnLines") List<String> vrsDnLines) {
             StringBuilder sql = new StringBuilder();
-            sql.append("DELETE FROM lm_sale_item_Real WHERE lm_order_id is null and lm_dnnum IN (");
+            sql.append("DELETE FROM VRS_sale_item_Real WHERE VRS_order_id is null and VRS_dnnum IN (");
             for (int i = 0; i < vrsDnnums.size(); i++) {
                 sql.append("#{vrsDnnums[").append(i).append("]}");
                 if (i < vrsDnnums.size() - 1) {
@@ -583,7 +583,7 @@ public interface CarApplicationMapper {
 
         public String batchInsertVRSDeliveryItemFieldReal(@Param("items") List<VRSDeliveryItemReal> itemsToInsert) {
             StringBuilder sql = new StringBuilder();
-            sql.append("INSERT INTO lm_sale_item_real (lm_Id, lm_dnnum, lm_actualdeliverydate, lm_loadTime, lm_dnline, lm_order_id, lm_car_number, lm_packagingid, lm_grossweight, lm_insert_time) VALUES ");
+            sql.append("INSERT INTO VRS_sale_item_real (VRS_Id, VRS_dnnum, VRS_actualdeliverydate, VRS_loadTime, VRS_dnline, VRS_order_id, VRS_car_number, VRS_packagingid, VRS_grossweight, VRS_insert_time) VALUES ");
             for (int i = 0; i < itemsToInsert.size(); i++) {
                 sql.append("(")
                         .append("#{items[").append(i).append("].vrsId}, ")

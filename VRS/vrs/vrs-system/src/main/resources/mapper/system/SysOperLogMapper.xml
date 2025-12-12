@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lemei.system.mapper.SysOperLogMapper">
+<mapper namespace="com.vrs.system.mapper.SysOperLogMapper">
 
     <resultMap type="SysOperLog" id="SysOperLogResult">
         <id     property="operId"         column="oper_id"        />
@@ -26,11 +26,11 @@
     <sql id="selectOperLogVo">
         select oper_id, title, business_type, method, request_method, operator_type, oper_name,
                dept_name, oper_url, oper_ip, oper_location, oper_param, json_result, status, error_msg, oper_time
-        from lm_oper_log
+        from VRS_oper_log
     </sql>
 
     <insert id="insertOperlog" parameterType="SysOperLog">
-        insert into lm_oper_log(title, business_type, method, request_method, operator_type, oper_name, dept_name, oper_url, oper_ip, oper_location, oper_param, json_result, status, error_msg, oper_time)
+        insert into VRS_oper_log(title, business_type, method, request_method, operator_type, oper_name, dept_name, oper_url, oper_ip, oper_location, oper_param, json_result, status, error_msg, oper_time)
         values (#{title}, #{businessType}, #{method}, #{requestMethod}, #{operatorType}, #{operName}, #{deptName}, #{operUrl}, #{operIp}, #{operLocation}, #{operParam}, #{jsonResult}, #{status}, #{errorMsg}, sysdate())
     </insert>
 
@@ -66,7 +66,7 @@
     </select>
 
     <delete id="deleteOperLogByIds" parameterType="Long">
-        delete from lm_oper_log where oper_id in
+        delete from VRS_oper_log where oper_id in
         <foreach collection="array" item="operId" open="(" separator="," close=")">
             #{operId}
         </foreach>
@@ -78,7 +78,9 @@
     </select>
 
     <update id="cleanOperLog">
-        truncate table lm_oper_log
+        truncate table VRS_oper_log
     </update>
 
 </mapper>
+
+

@@ -16,7 +16,7 @@
         t1.before_weight beforeWeight, t1.remark, t1.reason, t1.post_type postType,
         t1.checker_id checkerId, t1.checker_name checkerName,t1.application_no applicationNo,
         t1.order_id orderId,t1.businessType
-        from lm_car_application t1
+        from VRS_car_application t1
         where t1.isDeleted = 0
         <if test="startDate!=null">
             and application_date >= date_format(#{startDate},'%Y-%m-%d 00:00:00')
@@ -57,7 +57,7 @@
         t1.before_weight beforeWeight, t1.remark, t1.reason, t1.post_type postType,
         t1.checker_id checkerId, t1.checker_name checkerName,t1.application_no applicationNo,
         t1.order_id orderId,t1.businessType
-        from lm_car_application t1
+        from VRS_car_application t1
         where t1.isDeleted = 0
         <if test="startDate!=null">
             and t1.created_date >= date_format(#{startDate},'%Y-%m-%d 00:00:00')
@@ -108,7 +108,7 @@
         t1.before_weight beforeWeight, t1.remark, t1.reason, t1.post_type postType,
         t1.checker_id checkerId, t1.checker_name checkerName,t1.application_no applicationNo,
         t1.order_id orderId,t1.businessType
-        from lm_car_application t1
+        from VRS_car_application t1
         where t1.isDeleted = 0
         <if test="startDate!=null">
             and t1.application_date >= date_format(#{startDate},'%Y-%m-%d 00:00:00')
@@ -163,7 +163,7 @@
     <!-- 门卫统计今天数据 -->
     <select id="selectGuardDataByStatus" resultType="Integer">
         select count(*)
-        from lm_car_application t1
+        from VRS_car_application t1
         where t1.isDeleted = 0
         <!--今日未进厂  预约时间今天且状态为未进厂-->
         <if test="enterStatus==0">
@@ -190,7 +190,7 @@
     <!-- 统计审核端今天数据 -->
     <select id="selectCheckDataByStatus" resultType="Integer">
         select count(*)
-        from lm_car_application t1
+        from VRS_car_application t1
         where t1.isDeleted = 0
         <!--未审核 -->
         <if test="anthStatus==1">
@@ -214,7 +214,7 @@
     <!-- 统计本人今天数据 -->
     <select id="selectSelfDataByStatus" resultType="Integer">
         select count(*)
-        from lm_car_application t1
+        from VRS_car_application t1
         where t1.isDeleted = 0
         <!--未审核 -->
         <if test="anthStatus==1">
@@ -238,7 +238,7 @@
     </select>
 
     <insert id="insertCarApplication" parameterType="com.lemei.domain.param.ApplicationAddParam">
-        insert into lm_car_application
+        insert into VRS_car_application
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="applicationId != null">application_id,</if>
             <if test="driverName != null">driver_name,</if>
@@ -313,11 +313,11 @@
                t1.before_weight beforeWeight, t1.remark, t1.reason, t1.post_type postType,
                t1.checker_id checkerId, t1.checker_name checkerName, t1.application_no applicationNo,
                t1.reason_key reasonKey, t1.order_id orderId, t1.appointmentStatus appointmentStatus, t1.scrap scrap, t1.scrap_key scrapKey
-        from lm_car_application t1
+        from VRS_car_application t1
         where t1.application_id = #{applicationId}
     </select>
     <update id="updateCarApplicationById" parameterType="com.lemei.domain.param.ApplicationEditParam">
-        update lm_car_application
+        update VRS_car_application
         <trim prefix="SET" suffixOverrides=",">
             <if test="driverName != null">driver_name = #{driverName},</if>
             <if test="carNumber != null">car_number = #{carNumber},</if>
@@ -360,46 +360,46 @@
     </update>
     <select id="selectDictDataByType" parameterType="SysDictData" resultType="com.lemei.common.core.domain.ResultData">
         select dict_value dictValue,dict_type dictType,dict_label dictLabel,is_default isDefault
-        from lm_dict_data
+        from VRS_dict_data
         where status = '0' and dict_type = #{dictType} order by dict_sort asc
     </select>
 
     <select id="selectLmSupplierList" resultType="LmSupplierApp">
-        select * from lm_supplier
+        select * from VRS_supplier
     </select>
 
     <select id="selectApplicationDateByCarNumber" parameterType="com.lemei.domain.param.ApplicationQueryParam" resultType="java.sql.Date">
-        select application_date from lm_car_application where car_number=#{carNumber} and appointmentStatus=#{appointmentStatus}
+        select application_date from VRS_car_application where car_number=#{carNumber} and appointmentStatus=#{appointmentStatus}
     </select>
 
     <select id="selectAppointmentStatus" parameterType="com.lemei.domain.param.ApplicationQueryParam" resultType="java.lang.Integer">
-        select appointmentStatus from lm_car_application where car_number=#{carNumber} and application_date=#{applicationDate} and serialNumber=#{serialNumber}
+        select appointmentStatus from VRS_car_application where car_number=#{carNumber} and application_date=#{applicationDate} and serialNumber=#{serialNumber}
     </select>
 
     <select id="selectStatus" parameterType="com.lemei.domain.param.ApplicationQueryParam" resultType="java.lang.Integer">
-        select status from lm_car_application where car_number=#{carNumber} and application_date=#{applicationDate} and serialNumber=#{serialNumber}
+        select status from VRS_car_application where car_number=#{carNumber} and application_date=#{applicationDate} and serialNumber=#{serialNumber}
     </select>
 
     <select id="selectEnterStatus" parameterType="com.lemei.domain.param.ApplicationQueryParam" resultType="java.lang.Integer">
-        select enter_status from lm_car_application where car_number=#{carNumber} and application_date=#{applicationDate} and serialNumber=#{serialNumber}
+        select enter_status from VRS_car_application where car_number=#{carNumber} and application_date=#{applicationDate} and serialNumber=#{serialNumber}
     </select>
 
     <select id="selectStatusResult" parameterType="com.lemei.domain.param.ApplicationQueryParam" resultType="com.lemei.common.core.domain.ResultData">
-        select appointmentStatus,status,enter_status,appointmentWeight,before_weight from lm_car_application where serialNumber=#{serialNumber}
+        select appointmentStatus,status,enter_status,appointmentWeight,before_weight from VRS_car_application where serialNumber=#{serialNumber}
     </select>
 
     <select id="selectBusinessType" parameterType="com.lemei.domain.param.ApplicationQueryParam" resultType="java.lang.Integer">
-        select businessType from lm_car_application where car_number=#{carNumber} and application_date=#{applicationDate} and enter_status=1
+        select businessType from VRS_car_application where car_number=#{carNumber} and application_date=#{applicationDate} and enter_status=1
     </select>
 
     <select id="selectUDGE" parameterType="com.lemei.domain.param.ApplicationQueryParam" resultType="com.lemei.common.core.domain.ResultData">
         select upFloatingWeight,downFloatingWeight,goodsWeight,enableControl,toleranceAdd,toleranceDec
-        from lm_car_application
+        from VRS_car_application
         where car_number = #{carNumber} and status = 2 and enter_status = 1 and appointmentStatus = 4
     </select>
 
     <update id="updateCardInfo" parameterType="com.lemei.domain.param.ApplicationEditParam">
-        update lm_car_application
+        update VRS_car_application
         <trim prefix="SET" suffixOverrides=",">
             <if test="cardId != null">cardID = #{cardId},</if>
             <if test="cardType != null">cardType = #{cardType},</if>
@@ -414,7 +414,7 @@
     </update>
 
     <update id="updateOneWeightingInfo" parameterType="com.lemei.domain.param.ApplicationEditParam">
-        update lm_car_application
+        update VRS_car_application
         <trim prefix="SET" suffixOverrides=",">
             <if test="appointmentStatus != null">appointmentStatus = #{appointmentStatus},</if>
         </trim>
@@ -422,11 +422,11 @@
     </update>
 
     <select id="selectOneWeightingInfo" parameterType="com.lemei.domain.param.ApplicationQueryParam" resultType="com.lemei.common.core.domain.ResultData">
-        select businessType,driver_name,order_id,supplyCode,supplyName,carrier_id from lm_car_application where car_number=#{carNumber} and status = 2 and enter_status=1 and appointmentStatus=1
+        select businessType,driver_name,order_id,supplyCode,supplyName,carrier_id from VRS_car_application where car_number=#{carNumber} and status = 2 and enter_status=1 and appointmentStatus=1
     </select>
 
     <update id="updateOneWeightWriteInfo" parameterType="com.lemei.domain.param.ApplicationEditParam">
-        update lm_car_application
+        update VRS_car_application
         <trim prefix="SET" suffixOverrides=",">
             <if test="cardId != null">cardID = #{cardId},</if>
             <if test="carNumber != null">car_number = #{carNumber},</if>
@@ -444,7 +444,7 @@
     </update>
 
     <update id="updateTwoWeightingInfo" parameterType="com.lemei.domain.param.ApplicationEditParam">
-        update lm_car_application
+        update VRS_car_application
         <trim prefix="SET" suffixOverrides=",">
             <if test="appointmentStatus != null">appointmentStatus = #{appointmentStatus},</if>
         </trim>
@@ -452,11 +452,11 @@
     </update>
 
     <select id="selectTwoWeightingInfo" parameterType="com.lemei.domain.param.ApplicationQueryParam" resultType="com.lemei.common.core.domain.ResultData">
-        select businessType,driver_name,order_id,supplyCode,supplyName,carrier_id,appointmentWeight from lm_car_application where car_number=#{carNumber} and status = 2 and enter_status=1 and appointmentStatus=3
+        select businessType,driver_name,order_id,supplyCode,supplyName,carrier_id,appointmentWeight from VRS_car_application where car_number=#{carNumber} and status = 2 and enter_status=1 and appointmentStatus=3
     </select>
 
     <update id="updateTwoWeightWriteInfo" parameterType="com.lemei.domain.param.ApplicationEditParam">
-        update lm_car_application
+        update VRS_car_application
         <trim prefix="SET" suffixOverrides=",">
             <if test="cardId != null">cardID = #{cardId},</if>
             <if test="carNumber != null">car_number = #{carNumber},</if>
@@ -481,7 +481,7 @@
     </update>
 
     <update id="updateAppointmentStatus" parameterType="com.lemei.domain.param.ApplicationEditParam">
-        update lm_car_application
+        update VRS_car_application
         <trim prefix="SET" suffixOverrides=",">
             <if test="appointmentStatus != null">appointmentStatus = #{appointmentStatus},</if>
         </trim>
@@ -489,7 +489,7 @@
     </update>
 
     <update id="updateRefundCardInfo" parameterType="com.lemei.domain.param.ApplicationEditParam">
-        update lm_car_application
+        update VRS_car_application
         <trim prefix="SET" suffixOverrides=",">
             <if test="cardId != null">cardID = #{cardId},</if>
             <if test="cardType != null">cardType = #{cardType},</if>
@@ -502,35 +502,35 @@
     </update>
 
     <update id="updateLmSalesOrderItemByvrsDnnumAndvrsDnLine" parameterType="LmDeliveryItemField">
-        update lm_sale_item_insert
+        update VRS_sale_item_insert
         <trim prefix="SET" suffixOverrides=",">
-            <if test="vrsActualdeliverydate != null">lm_actualdeliverydate = #{vrsActualdeliverydate},</if>
-            <if test="lmLoadTime != null">lm_loadTime = #{lmLoadTime},</if>
-            <if test="vrsDnLineref != null">lm_dnlineref = #{vrsDnLineref},</if>
-            <if test="lmBatch != null">lm_batch = #{lmBatch},</if>
-            <if test="vrsGrossweight != null">lm_grossweight = #{vrsGrossweight},</if>
-            <if test="lmWeightunit != null">lm_weightunit = #{lmWeightunit},</if>
-            <if test="vrsPackagingid != null">lm_packagingid = #{vrsPackagingid},</if>
-            <if test="vrsCarNumber != null">lm_car_number = #{vrsCarNumber},</if>
-            <if test="vrsUpdateTime != null">lm_update_time = #{vrsUpdateTime},</if>
+            <if test="vrsActualdeliverydate != null">VRS_actualdeliverydate = #{vrsActualdeliverydate},</if>
+            <if test="lmLoadTime != null">VRS_loadTime = #{lmLoadTime},</if>
+            <if test="vrsDnLineref != null">VRS_dnlineref = #{vrsDnLineref},</if>
+            <if test="lmBatch != null">VRS_batch = #{lmBatch},</if>
+            <if test="vrsGrossweight != null">VRS_grossweight = #{vrsGrossweight},</if>
+            <if test="lmWeightunit != null">VRS_weightunit = #{lmWeightunit},</if>
+            <if test="vrsPackagingid != null">VRS_packagingid = #{vrsPackagingid},</if>
+            <if test="vrsCarNumber != null">VRS_car_number = #{vrsCarNumber},</if>
+            <if test="vrsUpdateTime != null">VRS_update_time = #{vrsUpdateTime},</if>
         </trim>
-        where lm_dnnum = #{vrsDnnum} And lm_dnline = #{vrsDnLine}
+        where VRS_dnnum = #{vrsDnnum} And VRS_dnline = #{vrsDnLine}
     </update>
 
     <insert id="insertLmDeliveryItemFieldThird" parameterType="LmDeliveryItemField" useGeneratedKeys="true" keyProperty="lmRecid">
-        insert into lm_sale_item_insert
+        insert into VRS_sale_item_insert
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="vrsDnnum != null">lm_dnnum,</if>
-            <if test="vrsActualdeliverydate != null">lm_actualdeliverydate,</if>
-            <if test="lmLoadTime != null">lm_loadTime,</if>
-            <if test="vrsDnLine != null">lm_dnline,</if>
-            <if test="vrsDnLineref != null">lm_dnlineref,</if>
-            <if test="lmBatch != null">lm_batch,</if>
-            <if test="vrsGrossweight != null">lm_grossweight,</if>
-            <if test="lmWeightunit != null">lm_weightunit,</if>
-            <if test="vrsPackagingid != null">lm_packagingid,</if>
-            <if test="vrsCarNumber != null">lm_car_number,</if>
-            <if test="vrsInsertTime != null">lm_insert_time,</if>
+            <if test="vrsDnnum != null">VRS_dnnum,</if>
+            <if test="vrsActualdeliverydate != null">VRS_actualdeliverydate,</if>
+            <if test="lmLoadTime != null">VRS_loadTime,</if>
+            <if test="vrsDnLine != null">VRS_dnline,</if>
+            <if test="vrsDnLineref != null">VRS_dnlineref,</if>
+            <if test="lmBatch != null">VRS_batch,</if>
+            <if test="vrsGrossweight != null">VRS_grossweight,</if>
+            <if test="lmWeightunit != null">VRS_weightunit,</if>
+            <if test="vrsPackagingid != null">VRS_packagingid,</if>
+            <if test="vrsCarNumber != null">VRS_car_number,</if>
+            <if test="vrsInsertTime != null">VRS_insert_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="vrsDnnum != null">#{vrsDnnum},</if>
@@ -549,13 +549,13 @@
 
     <sql id="selectSaleVo">
         select *
-        from lm_sale_item_real
+        from VRS_sale_item_real
     </sql>
 
-    <select id="getTolerance" resultType="com.lemei.domain.param.ApplicationEditParam"> select soToleranceAdd as toleranceAdd,soToleranceDec as toleranceDec from lm_global_variable </select>
+    <select id="getTolerance" resultType="com.lemei.domain.param.ApplicationEditParam"> select soToleranceAdd as toleranceAdd,soToleranceDec as toleranceDec from VRS_global_variable </select>
 
     <update id="updateSupplierByID" parameterType="com.lemei.domain.param.ApplicationSupplier">
-        update lm_supplier_local
+        update VRS_supplier_local
         <trim prefix="SET" suffixOverrides=",">
             <if test="code != null">code = #{code},</if>
             <if test="zName != null">name = #{zName},</if>
@@ -565,7 +565,7 @@
     </update>
 
     <insert id="insertSupplier" parameterType="com.lemei.domain.param.ApplicationSupplier">
-        insert into lm_supplier_local
+        insert into VRS_supplier_local
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="ID != null">ID,</if>
             <if test="code != null">code,</if>
@@ -581,7 +581,7 @@
     </insert>
 
     <update id="updateScrapAdvanceByNameAndDate" parameterType="com.lemei.domain.param.ApplicationScrapAdvance">
-        update lm_scrap_advance
+        update VRS_scrap_advance
         <trim prefix="SET" suffixOverrides=",">
             <if test="modifyTime != null">oa_modify_time = #{modifyTime},</if>
         </trim>
@@ -589,7 +589,7 @@
     </update>
 
     <insert id="insertScrapAdvance" parameterType="com.lemei.domain.param.ApplicationScrapAdvance">
-        insert into lm_scrap_advance
+        insert into VRS_scrap_advance
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="zName != null">oa_name,</if>
             <if test="dateTime != null">oa_date_time,</if>
@@ -606,17 +606,19 @@
     <select id="getPrintWeightTicketInfo" resultType="com.lemei.common.core.domain.ResultData">
         SELECT DISTINCT  
             car.order_id AS order_id,
-            sr.lm_dnnum AS lm_dnnum,
+            sr.VRS_dnnum AS VRS_dnnum,
             car.businessType AS businessType,
             car.car_number AS car_number,
             car.driver_name AS driver_name,
             car.IDCard AS IDCard
-        FROM lm_sale_item_real sr 
-        INNER JOIN lm_car_application car ON sr.lm_order_id = car.order_id 
+        from VRS_sale_item_real sr 
+        INNER JOIN VRS_car_application car ON sr.VRS_order_id = car.order_id 
         WHERE car.businessType = #{businessType} 
             AND car.order_id = #{orderId}
         LIMIT 1
     </select>
 
 </mapper>
+
+
 

@@ -488,8 +488,8 @@ public class ApplicationServiceImpl implements ApplicationService {
      * @return
      */
     @Override
-    public int updateLmSalesOrderItemByvrsDnnumAndvrsDnLine(VRSDeliveryItemField VRSDeliveryItemField) {
-        return carApplicationMapper.updateLmSalesOrderItemByvrsDnnumAndvrsDnLine(VRSDeliveryItemField);
+    public int updateVRSSalesOrderItemByvrsDnnumAndvrsDnLine(VRSDeliveryItemField VRSDeliveryItemField) {
+        return carApplicationMapper.updateVRSSalesOrderItemByvrsDnnumAndvrsDnLine(VRSDeliveryItemField);
     }
 
     /**
@@ -612,17 +612,17 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     /**
-     * 通过预约号码不为空，对lm_sale_item_insert中的lm_match_flag标记进行赋值为Yes
+     * 通过预约号码不为空，对VRS_sale_item_insert中的VRS_match_flag标记进行赋值为Yes
      *
      * @return 结果
      */
     @Override
-    public int updateLmMatchFlag(java.sql.Date yesterday){
-        return carApplicationMapper.updateLmMatchFlag(yesterday);
+    public int updateVRSMatchFlag(java.sql.Date yesterday){
+        return carApplicationMapper.updateVRSMatchFlag(yesterday);
     };
 
     /**
-     * 通过预约号码进行分组，查询毛重的和存入到车辆预约表lm_car_application中
+     * 通过预约号码进行分组，查询毛重的和存入到车辆预约表VRS_car_application中
      *
      * @return 结果
      */

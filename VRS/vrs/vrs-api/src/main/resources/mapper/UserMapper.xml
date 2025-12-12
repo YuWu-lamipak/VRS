@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -36,7 +36,7 @@
     <select id="getUserByPhone" resultMap="UserResult">
         select user_id,dept_id,user_name,nick_name,email,phoneNumber,sex,avatar,`password`,
             `status`,user_type,del_flag,is_blacklist
-        from lm_user
+        from VRS_user
         where del_flag = '0'
         and phoneNumber = #{phoneNumber}
         limit 1
@@ -45,7 +45,7 @@
     <select id="getUserByUserName" resultMap="UserResult">
         select user_id,dept_id,user_name,nick_name,email,phoneNumber,sex,avatar,`password`,
             `status`,user_type,del_flag,is_blacklist
-        from lm_user
+        from VRS_user
         where del_flag = '0'
         and user_name = #{userName}
         limit 1
@@ -55,7 +55,7 @@
     <select id="getDetailByIdcard" resultMap="UserResult">
         select user_id,dept_id,user_name,nick_name,email,phoneNumber,sex,avatar,`password`,
                `status`,user_type,del_flag,is_blacklist
-        from lm_user
+        from VRS_user
         where del_flag = '0'
           and idcard = #{idcard}
         limit 1
@@ -64,7 +64,7 @@
     <select id="getUserInfoById" resultMap="UserResult">
         select user_id,dept_id,user_name,nick_name,email,phoneNumber,sex,avatar,`password`,
                `status`,user_type,del_flag,is_blacklist,weComId
-        from lm_user
+        from VRS_user
         where del_flag = '0'
         and user_id = #{userId}
     </select>
@@ -72,9 +72,9 @@
     <select id="selectUserByQueryParam" resultMap="UserResult">
         select u.user_id,u.dept_id,u.user_name,u.nick_name,u.email,u.phoneNumber,u.sex,u.avatar,u.`password`,
         u.`status`,u.user_type,u.del_flag,u.idcard,u.personalProfile,u.place,u.is_blacklist,u.parent_id
-        from lm_user u
-        left join lm_user_role ur on u.user_id = ur.user_id
-        left join lm_role r on r.role_id = ur.role_id
+        from VRS_user u
+        left join VRS_user_role ur on u.user_id = ur.user_id
+        left join VRS_role r on r.role_id = ur.role_id
         where u.del_flag = '0'
           <if test="userId!=null">
               and u.user_id = #{userId}
@@ -89,7 +89,7 @@
     </select>
 
     <update id="updateUser" parameterType="SysUser">
-        update lm_user
+        update VRS_user
         <set>
             <if test="userName != null and userName != ''">user_name = #{userName},</if>
             <if test="nickName != null and nickName != ''">nick_name = #{nickName},</if>
@@ -109,18 +109,18 @@
 
     <select id="selectUserRoleList" resultType="Long">
         select r.role_id
-        from lm_user u
-                 left join lm_user_role ur on u.user_id = ur.user_id
-                 left join lm_role r on r.role_id = ur.role_id
+        from VRS_user u
+                 left join VRS_user_role ur on u.user_id = ur.user_id
+                 left join VRS_role r on r.role_id = ur.role_id
         where u.del_flag = '0'
           and u.user_id = #{userId}
     </select>
 
     <select id="getUserListByUserType" resultType="com.lemei.common.core.domain.ResultData">
         select u.user_id userId,u.user_name userName,u.nick_name nikName,u.idcard,u.phoneNumber
-        from lm_user u
-                 left join lm_user_role ur on u.user_id = ur.user_id
-                 left join lm_role r on r.role_id = ur.role_id
+        from VRS_user u
+                 left join VRS_user_role ur on u.user_id = ur.user_id
+                 left join VRS_role r on r.role_id = ur.role_id
         where u.del_flag = '0'
             and u.is_blacklist = 0
           <if test="userType!=null and userType!=''">
@@ -136,9 +136,9 @@
 
 <!--    <select id="getUserListByUserType" resultType="com.lemei.common.core.domain.ResultData">-->
 <!--        select u.user_id userId,u.user_name userName,u.nick_name nikName,u.idcard,u.phoneNumber-->
-<!--        from lm_user u-->
-<!--        left join lm_user_role ur on u.user_id = ur.user_id-->
-<!--        left join lm_role r on r.role_id = ur.role_id-->
+<!--        from VRS_user u-->
+<!--        left join VRS_user_role ur on u.user_id = ur.user_id-->
+<!--        left join VRS_role r on r.role_id = ur.role_id-->
 <!--        where u.del_flag = '0'-->
 <!--        and u.is_blacklist = 0-->
 <!--        <if test="userType!=null and userType!=''">-->
@@ -156,3 +156,4 @@
 <!--    </select>-->
 
 </mapper>
+

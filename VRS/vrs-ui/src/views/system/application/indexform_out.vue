@@ -340,7 +340,7 @@ export default {
     this.form.businessDescription = this.detail.reason || null;
     this.form.applicationId = this.detail.applicationId;
     getSupplierList().then(response => {
-      this.suppliers = response.lmSupplier
+      this.suppliers = response.VRSSupplier
     });
   },
   watch: {
@@ -406,7 +406,7 @@ export default {
           let retundata = {
             applicationId: that.form.applicationId,
             status: 2,
-            orderId: that.detail.factoryType === 'KS' ? "LMKS" + "-" + that.getuuid() || null : "LMIN" + "-" + that.getuuid() || null,
+            orderId: that.detail.factoryType === 'KS' ? "VRSKS" + "-" + that.getuuid() || null : "VRSIN" + "-" + that.getuuid() || null,
             businessType: that.form.businessType || null,
             appointmentWeight: that.form.appointmentWeight,
             enableControl: that.form.enableControl,

@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
  **/
 @RestController
 @RequestMapping(value = "/api/user")
-@Api(description = "小程序用户",tags = "login")
+@Api(description = "用户管理",tags = "login")
 public class UserController {
 
     @Autowired

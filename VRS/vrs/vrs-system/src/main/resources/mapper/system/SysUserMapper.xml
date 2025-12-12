@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lemei.system.mapper.SysUserMapper">
+<mapper namespace="com.vrs.system.mapper.SysUserMapper">
 
     <resultMap type="SysUser" id="SysUserResult">
         <id     property="userId"       column="user_id"      />
@@ -63,10 +63,10 @@
                u.is_blacklist,u.place, u.idcard,u.contact,u.ch_name,u.weComId,
                d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status,
                r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.status as role_status
-        from lm_user u
-                 left join lm_dept d on u.dept_id = d.dept_id
-                 left join lm_user_role ur on u.user_id = ur.user_id
-                 left join lm_role r on r.role_id = ur.role_id
+        from VRS_user u
+                 left join VRS_dept d on u.dept_id = d.dept_id
+                 left join VRS_user_role ur on u.user_id = ur.user_id
+                 left join VRS_role r on r.role_id = ur.role_id
     </sql>
 
     <select id="selectUserList" parameterType="SysUser" resultMap="SysUserResult">
@@ -75,11 +75,11 @@
                u.idcard,u.personalProfile,u.contact,u.ch_name,u.parent_id,u.weComId,
                u.create_time, u.remark, d.dept_name, d.leader,u.parent_id,u.user_type,u.is_blacklist,
                lu.nick_name as carrierName
-        from lm_user u
-        left join lm_dept d on u.dept_id = d.dept_id
-        left join lm_user lu on u.parent_id = lu.user_id
-        left join lm_user_role ur on u.user_id = ur.user_id
-        left join lm_role r on r.role_id = ur.role_id
+        from VRS_user u
+        left join VRS_dept d on u.dept_id = d.dept_id
+        left join VRS_user lu on u.parent_id = lu.user_id
+        left join VRS_user_role ur on u.user_id = ur.user_id
+        left join VRS_role r on r.role_id = ur.role_id
         where u.del_flag = '0'
         <if test="userId != null and userId != 0">
             AND u.user_id = #{userId}
@@ -120,7 +120,7 @@
             AND date_format(u.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
         </if>
         <if test="deptId != null and deptId != 0">
-            AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM lm_dept t WHERE find_in_set(#{deptId}, ancestors) ))
+            AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM VRS_dept t WHERE find_in_set(#{deptId}, ancestors) ))
         </if>
         <!-- 数据范围过滤 -->
         ${params.dataScope}
@@ -130,10 +130,10 @@
         select u.user_id, u.dept_id, u.nick_name, u.user_name, u.email, u.avatar, u.phoneNumber,
         u.password, u.sex, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by,u.idcard,
         u.create_time, u.remark, d.dept_name, d.leader,u.parent_id,u.user_type,u.is_blacklist
-        from lm_user u
-        left join lm_dept d on u.dept_id = d.dept_id
-        left join lm_user_role ur on ur.user_id = u.user_id
-        left join lm_role r on r.role_id = ur.role_id
+        from VRS_user u
+        left join VRS_dept d on u.dept_id = d.dept_id
+        left join VRS_user_role ur on ur.user_id = u.user_id
+        left join VRS_role r on r.role_id = ur.role_id
         where u.del_flag = '0'
             and r.role_id = 144
             and u.status = '0'
@@ -142,10 +142,10 @@
 <!--        select u.user_id, u.dept_id, u.nick_name, u.user_name, u.email, u.avatar, u.phoneNumber,-->
 <!--               u.password, u.sex, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by,u.idcard,-->
 <!--               u.create_time, u.remark, d.dept_name, d.leader,u.parent_id,u.user_type,u.is_blacklist-->
-<!--        from lm_user u-->
-<!--                 left join lm_dept d on u.dept_id = d.dept_id-->
-<!--                 left join lm_user_role ur on ur.user_id = u.user_id-->
-<!--                 left join lm_role r on r.role_id = ur.role_id-->
+<!--        from VRS_user u-->
+<!--                 left join VRS_dept d on u.dept_id = d.dept_id-->
+<!--                 left join VRS_user_role ur on ur.user_id = u.user_id-->
+<!--                 left join VRS_role r on r.role_id = ur.role_id-->
 <!--        where u.del_flag = '0'-->
 <!--          and r.role_id = 144-->
 <!--          and u.status = '0'-->
@@ -155,7 +155,7 @@
         select u.user_id, u.dept_id, u.nick_name, u.user_name, u.email, u.avatar, ifnull(u.phoneNumber,"") phoneNumber,
         u.password, u.sex, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by,ifnull(u.idcard,"") idcard,
         u.create_time, u.remark,u.parent_id,u.user_type,u.is_blacklist,u.weComId
-        from lm_user u
+        from VRS_user u
         where u.del_flag = '0'
         and u.user_id = #{userId}
 
@@ -165,7 +165,7 @@
         select u.user_id, u.dept_id, u.nick_name, u.user_name, u.email, u.avatar, ifnull(u.phoneNumber,"") phoneNumber,
                u.password, u.sex, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by,ifnull(u.idcard,"") idcard,
                u.create_time, u.remark,u.parent_id,u.user_type,u.is_blacklist
-        from lm_user u
+        from VRS_user u
         where u.del_flag = '0'
           and u.idcard = #{idcard}
 
@@ -174,10 +174,10 @@
     <select id="selectAllocatedList" parameterType="SysUser" resultMap="SysUserResult">
         select distinct u.user_id, u.dept_id, u.user_name, u.nick_name, u.email, u.phoneNumber,
                         u.status, u.create_time,u.user_type,u.is_blacklist
-        from lm_user u
-        left join lm_dept d on u.dept_id = d.dept_id
-        left join lm_user_role ur on u.user_id = ur.user_id
-        left join lm_role r on r.role_id = ur.role_id
+        from VRS_user u
+        left join VRS_dept d on u.dept_id = d.dept_id
+        left join VRS_user_role ur on u.user_id = ur.user_id
+        left join VRS_role r on r.role_id = ur.role_id
         where u.del_flag = '0' and r.role_id = #{roleId}
         <if test="userName != null and userName != ''">
             AND u.user_name like concat('%', #{userName}, '%')
@@ -192,21 +192,21 @@
     <select id="selectUserByRole" parameterType="SysUser" resultMap="SysUserResult">
         select distinct u.user_id, u.dept_id, u.user_name, u.nick_name, u.email, u.phoneNumber,
                         u.status, u.create_time,u.user_type,u.is_blacklist
-        from lm_user u
-                 left join lm_user_role ur on u.user_id = ur.user_id
-                 left join lm_role r on r.role_id = ur.role_id
+        from VRS_user u
+                 left join VRS_user_role ur on u.user_id = ur.user_id
+                 left join VRS_role r on r.role_id = ur.role_id
         where r.role_id = #{roleId} and u.user_id = #{userId}
     </select>
 
     <select id="selectUnallocatedList" parameterType="SysUser" resultMap="SysUserResult">
         select distinct u.user_id, u.dept_id, u.user_name, u.nick_name, u.email, u.phoneNumber, u.status,
                         u.create_time,u.user_type,u.is_blacklist
-        from lm_user u
-        left join lm_dept d on u.dept_id = d.dept_id
-        left join lm_user_role ur on u.user_id = ur.user_id
-        left join lm_role r on r.role_id = ur.role_id
+        from VRS_user u
+        left join VRS_dept d on u.dept_id = d.dept_id
+        left join VRS_user_role ur on u.user_id = ur.user_id
+        left join VRS_role r on r.role_id = ur.role_id
         where u.del_flag = '0' and (r.role_id != #{roleId} or r.role_id IS NULL)
-        and u.user_id not in (select u.user_id from lm_user u inner join lm_user_role ur on u.user_id = ur.user_id and ur.role_id = #{roleId})
+        and u.user_id not in (select u.user_id from VRS_user u inner join VRS_user_role ur on u.user_id = ur.user_id and ur.role_id = #{roleId})
         <if test="userName != null and userName != ''">
             AND u.user_name like concat('%', #{userName}, '%')
         </if>
@@ -228,27 +228,27 @@
     </select>
 
     <select id="checkUserNameUnique" parameterType="String" resultType="int">
-        select count(1) from lm_user where user_name = #{userName} limit 1
+        select count(1) from VRS_user where user_name = #{userName} limit 1
     </select>
 
     <select id="checkPhoneUnique" parameterType="String" resultMap="SysUserResult">
-        select * from lm_user where phoneNumber = #{phoneNumber} limit 1
+        select * from VRS_user where phoneNumber = #{phoneNumber} limit 1
     </select>
 
     <select id="checkEmailUnique" parameterType="String" resultMap="SysUserResult">
-        select user_id, email from lm_user where email = #{email} limit 1
+        select user_id, email from VRS_user where email = #{email} limit 1
     </select>
 
     <select id="checkIdCardUnique" parameterType="String" resultMap="SysUserResult">
-        select user_id, idcard from lm_user where idcard = #{idcard} limit 1
+        select user_id, idcard from VRS_user where idcard = #{idcard} limit 1
     </select>
     <!--  非当前用户身份证号是否唯一 -->
     <select id="checkIdCardUniqueNotCurrentUser"  resultType="int">
-        select count(1) from lm_user where idcard = #{idcard} and user_id !=#{userId} limit 1
+        select count(1) from VRS_user where idcard = #{idcard} and user_id !=#{userId} limit 1
     </select>
 
     <insert id="insertUser" parameterType="SysUser" useGeneratedKeys="true" keyProperty="userId">
-        insert into lm_user(
+        insert into VRS_user(
         <if test="userId != null and userId != 0">user_id,</if>
         <if test="deptId != null and deptId != 0">dept_id,</if>
         <if test="userName != null and userName != ''">user_name,</if>
@@ -290,7 +290,7 @@
     </insert>
 
     <update id="updateUser" parameterType="SysUser">
-        update lm_user
+        update VRS_user
         <set>
             <if test="deptId != null and deptId != 0">dept_id = #{deptId},</if>
             <if test="userName != null and userName != ''">user_name = #{userName},</if>
@@ -321,29 +321,29 @@
     </update>
 
     <update id="updateUserStatus" parameterType="SysUser">
-        update lm_user set status = #{status} where user_id = #{userId}
+        update VRS_user set status = #{status} where user_id = #{userId}
     </update>
 
     <update id="updateUserAvatar" parameterType="SysUser">
-        update lm_user set avatar = #{avatar} where user_name = #{userName}
+        update VRS_user set avatar = #{avatar} where user_name = #{userName}
     </update>
 
     <update id="resetUserPwd" parameterType="SysUser">
-        update lm_user set password = #{password} where user_name = #{userName}
+        update VRS_user set password = #{password} where user_name = #{userName}
     </update>
 
     <delete id="deleteUserById" parameterType="Long">
-        update lm_user set del_flag = '2' where user_id = #{userId}
+        update VRS_user set del_flag = '2' where user_id = #{userId}
     </delete>
 
     <delete id="deleteUserByIds" parameterType="Long">
-        update lm_user set del_flag = '2' where user_id in
+        update VRS_user set del_flag = '2' where user_id in
         <foreach collection="array" item="userId" open="(" separator="," close=")">
             #{userId}
         </foreach>
     </delete>
     <select id="selectCarrierAll" parameterType="Long" resultMap="SysUserResult">
-        select * from lm_user
+        select * from VRS_user
         where user_type='01'
         and del_flag = '0'
         <if test="userId!=null" >
@@ -355,3 +355,5 @@
 
 
 </mapper>
+
+

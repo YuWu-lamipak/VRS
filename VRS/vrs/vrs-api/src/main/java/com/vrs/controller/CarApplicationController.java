@@ -1112,7 +1112,7 @@ public class CarApplicationController {
 //                    boolean b = applicationService.checkRecordExists(VRSDeliveryItemField.getvrsDnnum(), VRSDeliveryItemField.getvrsDnLine());
 //                    if (b) {
 //                        VRSDeliveryItemField.setvrsUpdateTime(currentTime);
-//                        applicationService.updateLmSalesOrderItemByvrsDnnumAndvrsDnLine(VRSDeliveryItemField);
+//                        applicationService.updateVRSSalesOrderItemByvrsDnnumAndvrsDnLine(VRSDeliveryItemField);
 //                    } else {
 //                        VRSDeliveryItemField.setvrsInsertTime(currentTime);
 //                        applicationService.insertVRSDeliveryItemFieldThird(VRSDeliveryItemField);
@@ -1189,7 +1189,7 @@ public class CarApplicationController {
         if (!itemsToInsertForReal.isEmpty()) {
             applicationService.batchInsertVRSDeliveryItemFieldReal(itemsToInsertForReal);
         }
-        applicationService.updateLmMatchFlag(java.sql.Date.valueOf(yesterday));
+        applicationService.updateVRSMatchFlag(java.sql.Date.valueOf(yesterday));
 
         applicationService.updateTotalGrossWeightByOrderId(java.sql.Date.valueOf(yesterday));
         // 跳出循环的条件：循环完全执行完毕并且标志为 true

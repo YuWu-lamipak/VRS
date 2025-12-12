@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 车辆预约对象 lm_car_application
+ * 车辆预约对象 VRS_car_application
  *
  * @author zhangpeng
  * @date 2023-08-24

@@ -5,11 +5,8 @@
 
 # 构建输出
 VRS/lemei/*/target/
-VRS/lemei-ui/node_modules/
-VRS/lemei-ui/dist/
-VRS/LMXCX/*/node_modules/
-VRS/LMXCX/*/dist/
-VRS/LMXCX/*/unpackage/
+VRS/vrs-ui/node_modules/
+VRS/vrs-ui/dist/
 
 # 测试报告（保留模板和最新报告）
 Test/TestReport/*.txt

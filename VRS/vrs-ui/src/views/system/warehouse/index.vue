@@ -468,7 +468,7 @@ export default {
             });
           } else {
             addUser(this.form).then(response => {
-              this.$modal.msgSuccess(this.$t('lmm5'));
+              this.$modal.msgSuccess(this.$t('VRSmm5'));
               this.open = false;
               this.getList();
             });

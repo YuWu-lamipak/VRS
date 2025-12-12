@@ -144,7 +144,7 @@ public interface VRSCarApplicationMapper
      * @param
      * @return 车辆预约
      */
-    @Select("select max(serialNumber) from lm_car_application for update")
+    @Select("select max(serialNumber) from VRS_car_application for update")
     Long selectMaxSerialNumber();
 
     /**
@@ -153,7 +153,7 @@ public interface VRSCarApplicationMapper
      * @param
      * @return 车辆预约
      */
-    @Select("select count(*) from lm_car_application where car_number=#{VRSCarApplication.carNumber} and appointmentStatus not in (6,7) ")
+    @Select("select count(*) from VRS_car_application where car_number=#{VRSCarApplication.carNumber} and appointmentStatus not in (6,7) ")
     Integer selectNonFinishedByCarNumber(@Param("VRSCarApplication") VRSCarApplication VRSCarApplication);
 
     /**
@@ -170,7 +170,7 @@ public interface VRSCarApplicationMapper
      * @param
      * @return 进厂状态集合
      */
-    @Select("SELECT enter_status FROM lm_car_application WHERE car_number = #{carNumber}")
+    @Select("SELECT enter_status FROM VRS_car_application WHERE car_number = #{carNumber}")
     List<Integer> selectEnterStatusListByCarNumber(String carNumber);
 
     /**
@@ -226,7 +226,7 @@ public interface VRSCarApplicationMapper
      * @param orderId
      * @return 结果
      */
-    @Select("SELECT EXISTS (SELECT 1 FROM lm_audit WHERE order_id = #{orderId})")
+    @Select("SELECT EXISTS (SELECT 1 FROM VRS_audit WHERE order_id = #{orderId})")
     boolean checkExitOrderIdByOrderId(@Param("orderId") String orderId);
 
     /**
@@ -235,7 +235,7 @@ public interface VRSCarApplicationMapper
      * @param VRSCarApplication
      * @return 结果
      */
-    @Insert("INSERT INTO lm_audit (order_id,originalWeight,editWeight,editPerson,editTime,editReason,businessType) VALUES (#{orderId},#{originalWeight},#{editWeight},#{editPerson},#{editTime},#{editReason},#{businessType})")
+    @Insert("INSERT INTO VRS_audit (order_id,originalWeight,editWeight,editPerson,editTime,editReason,businessType) VALUES (#{orderId},#{originalWeight},#{editWeight},#{editPerson},#{editTime},#{editReason},#{businessType})")
     int insertAuditLine(VRSCarApplication VRSCarApplication);
 
     /**
@@ -244,7 +244,7 @@ public interface VRSCarApplicationMapper
      * @param VRSCarApplication
      * @return 结果
      */
-    @Update("UPDATE lm_audit SET originalWeight = #{originalWeight},editWeight = #{editWeight},editPerson = #{editPerson},editTime = #{editTime},editReason = #{editReason},businessType = #{businessType} WHERE order_id = #{orderId}")
+    @Update("UPDATE VRS_audit SET originalWeight = #{originalWeight},editWeight = #{editWeight},editPerson = #{editPerson},editTime = #{editTime},editReason = #{editReason},businessType = #{businessType} WHERE order_id = #{orderId}")
     int updateAuditLineByOrderId(VRSCarApplication VRSCarApplication);
 
     /**
@@ -253,7 +253,7 @@ public interface VRSCarApplicationMapper
      * @param name,date
      * @return 结果
      */
-    @Select("SELECT EXISTS (SELECT 1 FROM lm_scrap_advance WHERE oa_name = #{name} and oa_date_time = #{date} )")
+    @Select("SELECT EXISTS (SELECT 1 FROM VRS_scrap_advance WHERE oa_name = #{name} and oa_date_time = #{date} )")
     boolean checkScrapAdvanceInfoExists(@Param("name") String name,@Param("date") String date);
 
     /**
@@ -262,7 +262,7 @@ public interface VRSCarApplicationMapper
      * @param applicationId
      * @return 结果
      */
-    @Select("SELECT car_number from lm_car_application WHERE application_id = #{applicationId}")
+    @Select("SELECT car_number from VRS_car_application WHERE application_id = #{applicationId}")
     String selectCarNumberByApplicationId(String applicationId);
 
     /**
@@ -271,7 +271,7 @@ public interface VRSCarApplicationMapper
      * @param carNumber
      * @return 结果
      */
-    @Select("SELECT EXISTS (SELECT 1 FROM lm_car_application WHERE enter_status = '1' and car_number = #{carNumber} )")
+    @Select("SELECT EXISTS (SELECT 1 FROM VRS_car_application WHERE enter_status = '1' and car_number = #{carNumber} )")
     boolean checkEnterStatusInfoExists(String carNumber);
 
 }

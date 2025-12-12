@@ -69,36 +69,7 @@ npm run lint
 - API 基础路径：`/dev-api`
 - 使用 legacy OpenSSL provider 以兼容 Node.js
 
-## 小程序 (VRS/LMXCX/ym_car_xcx/ym_car_xcx)
 
-### 框架
-- uni-app（基于 Vue 2.6.11）
-- uView UI 2.0.37
-- uni-simple-router 2.0.8-beta.4
-
-### 开发命令
-```bash
-# 安装依赖
-npm install
-
-# 微信小程序开发
-npm run dev:mp-weixin
-
-# H5 开发
-npm run dev:h5
-
-# 微信小程序构建
-npm run build:mp-weixin
-
-# H5 构建
-npm run build:h5
-```
-
-### 支持平台
-- 微信小程序（主要）
-- H5
-- 支付宝、百度、QQ、头条小程序
-- App（iOS/Android）
 
 ## 数据库
 - MySQL（使用 MyBatis XML 映射）

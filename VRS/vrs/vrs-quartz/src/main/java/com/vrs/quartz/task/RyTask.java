@@ -52,7 +52,7 @@ public class RyTask
         jsonObjectbody.put("size", "2000");
         jsonObjectbody.put("alias", "Id");
         jsonObjectbody.put("pk", "Id");
-        jsonObjectbody.put("table", "LMP.dbo.SLC_SUPPLIER_A");
+        jsonObjectbody.put("table", "VRS.dbo.SLC_SUPPLIER_A");
 
         JSONObject jsonObjectdata =new JSONObject();
         jsonObjectdata.put("data", jsonObjectbody);

@@ -20,7 +20,7 @@
 ├── VRS/                       # 项目源代码
 │   ├── lemei/                 # 后端 Java 应用
 │   ├── lemei-ui/              # 管理后台前端
-│   └── LMXCX/                 # 微信小程序
+
 ├── README.md                  # 项目主文档
 ├── TESTING.md                 # 测试指南
 ├── run-tests.bat              # 批处理测试脚本（推荐）
@@ -141,29 +141,7 @@ lemei-ui/
 └── package.json
 ```
 
-## 小程序结构 (VRS/LMXCX/ym_car_xcx/ym_car_xcx)
 
-uni-app 项目结构：
-
-```
-ym_car_xcx/
-├── src/
-│   ├── api/          # API 服务
-│   ├── components/   # 可复用组件
-│   ├── pages/        # 页面组件
-│   ├── router/       # uni-simple-router 配置
-│   ├── static/       # 静态资源
-│   ├── store/        # Vuex 状态管理
-│   ├── styles/       # 全局样式
-│   ├── utils/        # 工具函数
-│   ├── uview-ui/     # uView UI 组件库
-│   ├── App.vue       # 应用入口
-│   ├── main.js       # 主入口
-│   ├── pages.json    # 页面配置
-│   └── manifest.json # 应用清单
-├── dist/             # 构建输出
-└── package.json
-```
 
 ## 关键约定
 
@@ -183,8 +161,4 @@ ym_car_xcx/
 - 通过指令控制权限（`v-hasPermi`、`v-hasRole`）
 - 通过 `DictData` 组件管理字典数据
 
-### 小程序
-- 页面在 `pages.json` 中定义
-- API 基础 URL 按环境配置
-- 使用 uView UI 组件库
-- 通过 uni-simple-router 进行路由管理
+

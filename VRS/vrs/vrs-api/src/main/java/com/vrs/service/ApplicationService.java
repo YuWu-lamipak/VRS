@@ -198,7 +198,7 @@ public interface ApplicationService {
      *
      * @return
      */
-    int updateLmSalesOrderItemByvrsDnnumAndvrsDnLine(VRSDeliveryItemField VRSDeliveryItemField);
+    int updateVRSSalesOrderItemByvrsDnnumAndvrsDnLine(VRSDeliveryItemField VRSDeliveryItemField);
 
     /**
      * 新增出货装箱单行
@@ -288,15 +288,15 @@ public interface ApplicationService {
     List<Map<String, String>> getMapByAppointmentStatus();
 
     /**
-     * 通过预约号码不为空，对lm_sale_item_insert中的lm_match_flag标记进行赋值为Yes
+     * 通过预约号码不为空，对VRS_sale_item_insert中的VRS_match_flag标记进行赋值为Yes
      *
      * @return 结果
      */
-    int updateLmMatchFlag(java.sql.Date yesterday);
+    int updateVRSMatchFlag(java.sql.Date yesterday);
 
 
     /**
-     * 通过预约号码进行分组，查询毛重的和存入到车辆预约表lm_car_application中
+     * 通过预约号码进行分组，查询毛重的和存入到车辆预约表VRS_car_application中
      *
      * @return 结果
      */

@@ -119,10 +119,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/application/scrapAdvanceInfo").anonymous()
                 // API接口 - 允许匿名访问
                 .antMatchers("/api/application/**").anonymous()
-                // 小程序用户接口 - 允许匿名访问
+                // 用户接口 - 允许匿名访问
                 .antMatchers("/api/user/login").anonymous()
                 .antMatchers("/api/user/register").anonymous()
-                // 小程序审核功能接口 - 允许认证用户访问
+                // 审核功能接口 - 允许认证用户访问
                 .antMatchers("/api/application/authen").authenticated()
                 .antMatchers("/api/user/userinfo").authenticated()
                 // 除上面外的所有请求全部需要鉴权认证
