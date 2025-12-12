@@ -1,0 +1,22 @@
+# VRS车辆预约系统代码所有者配置
+# 详细信息: https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners
+
+# 全局所有者 - 所有文件都需要以下用户审核
+* @wagalicn
+
+# 核心代码目录 - 需要额外审核
+/VRS/vrs/ @wagalicn @trusted-collaborator
+
+# 配置文件 - 只有管理员可以修改
+*.yml @wagalicn
+*.xml @wagalicn
+*.properties @wagalicn
+
+# 数据库脚本 - 需要特别谨慎
+/VRS/vrs/sql/ @wagalicn
+
+# 文档可以由更多人修改
+*.md @wagalicn @doc-maintainer
+
+# 前端代码
+/VRS/vrs-ui/ @wagalicn @frontend-team
